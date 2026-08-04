@@ -1,12 +1,12 @@
 'use client';
 
 import React from 'react';
-import { Search, BookOpen, CheckSquare } from 'lucide-react';
+import { Search } from 'lucide-react';
 
-export function Header({ searchQuery, setSearchQuery, activeTab, setActiveTab, activeDocTitle }) {
+export function Header({ searchQuery, setSearchQuery }) {
   return (
     <header className="header-bar">
-      <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '20px', flex: 1, minWidth: 0 }}>
         {/* Search Bar */}
         <div className="search-box">
           <Search className="search-icon" size={16} />
@@ -18,27 +18,6 @@ export function Header({ searchQuery, setSearchQuery, activeTab, setActiveTab, a
             onChange={(e) => setSearchQuery(e.target.value)}
           />
         </div>
-      </div>
-
-      <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-        {/* View Switcher */}
-        <button
-          className={`sidebar-nav-item ${activeTab === 'docs' ? 'active' : ''}`}
-          style={{ marginBottom: 0, padding: '8px 14px' }}
-          onClick={() => setActiveTab('docs')}
-        >
-          <BookOpen size={16} />
-          Documentation
-        </button>
-
-        <button
-          className={`sidebar-nav-item ${activeTab === 'tracker' ? 'active' : ''}`}
-          style={{ marginBottom: 0, padding: '8px 14px' }}
-          onClick={() => setActiveTab('tracker')}
-        >
-          <CheckSquare size={16} />
-          Bootcamp Tracker
-        </button>
       </div>
     </header>
   );

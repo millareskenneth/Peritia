@@ -29,21 +29,36 @@ export const docsData = [
 
 ## 2. Core Operating System Component Architecture
 
-\`\`\`
-┌────────────────────────────────────────────────────────────────────────┐
-│                        PeritiaOS Userland & CLI                        │
-├────────────────────────────────────────────────────────────────────────┤
-│  Declarative Engine   │ Multi-Version Toolchain │ Telemetry Dashboard  │
-│  (.peritia.yaml)      │ (Per-Directory PATH)    │ (eBPF Terminal TUI)  │
-├───────────────────────┴─────────────────────────┴──────────────────────┤
-│               Custom Package Manager & Transaction Engine              │
-├────────────────────────────────────────────────────────────────────────┤
-│             Rootless Container Runtime (Podman / cgroups v2)           │
-├────────────────────────────────────────────────────────────────────────┤
-│       Btrfs Storage Layer (CoW, Subvolumes, Instant Snapshots)         │
-├────────────────────────────────────────────────────────────────────────┤
-│         Hardened Linux Kernel (Custom sysctl, eBPF, PAM profiles)      │
-└────────────────────────────────────────────────────────────────────────┘
+\`\`\`mermaid
+flowchart TD
+    subgraph Userland ["PeritiaOS Userland & CLI Surface"]
+        DEC["Declarative Engine (.peritia.yaml)"]
+        TOOL["Multi-Version Toolchain Engine"]
+        TUI["eBPF Telemetry Dashboard TUI"]
+    end
+
+    subgraph Core ["Core Engine Layer"]
+        PKG["Custom Package Manager & SAT Solver"]
+        CONTAINER["Rootless Container Runtime (Podman / cgroups v2)"]
+    end
+
+    subgraph Storage ["Storage & System Core"]
+        BTRFS["Btrfs Storage Layer (CoW & Instant Snapshots)"]
+        KERNEL["Hardened Linux Kernel (Custom sysctl, eBPF Probes)"]
+    end
+
+    Userland --> Core
+    PKG --> CONTAINER
+    Core --> Storage
+    BTRFS --> KERNEL
+
+    classDef userland fill:#111726,stroke:#16db65,stroke-width:2px,color:#f8fafc;
+    classDef core fill:#1b2234,stroke:#16db65,stroke-width:2px,color:#f8fafc;
+    classDef storage fill:#090d16,stroke:#16db65,stroke-width:2px,color:#f8fafc;
+
+    class DEC,TOOL,TUI userland;
+    class PKG,CONTAINER core;
+    class BTRFS,KERNEL storage;
 \`\`\`
 
 ### 2.1 Storage & Filesystem Subsystem
@@ -158,33 +173,57 @@ environment:
 
 ## 6. 5-Phase Product Development Roadmap
 
-\`\`\`
-  Phase 1: Core Foundation (Months 1–3)
-  ├── Package Manager Core (Rust/Go)
-  ├── Btrfs Storage Layer Tuning
-  ├── Developer Setup Wizard TUI
-  └── Rootless Podman/Docker Integration
+\`\`\`mermaid
+flowchart LR
+    subgraph P1 ["Phase 1: Core Foundation (M1-M3)"]
+        direction TB
+        A1["Package Manager Core"]
+        A2["Btrfs Storage Layer Tuning"]
+        A3["Setup Wizard TUI"]
+        A4["Rootless Podman Integration"]
+    end
 
-  Phase 2: Toolchain & Parity (Months 4–6)
-  ├── Multi-Version Toolchain Engine (.peritia.yaml)
-  ├── Build Caching Engine (RAM disk mounts)
-  └── Local CI/CD Runner (peritia-ci)
+    subgraph P2 ["Phase 2: Toolchain & Parity (M4-M6)"]
+        direction TB
+        B1["Multi-Version Toolchain (.peritia.yaml)"]
+        B2["RAM Disk Build Caching"]
+        B3["Local CI/CD Runner (peritia-ci)"]
+    end
 
-  Phase 3: Telemetry & Observability (Months 6–8)
-  ├── eBPF Resource Telemetry Dashboard
-  ├── Profiling CLI Wrappers (peritia-trace, peritia-profile)
-  └── Performance Regression Detector
+    subgraph P3 ["Phase 3: Telemetry (M6-M8)"]
+        direction TB
+        C1["eBPF Resource Dashboard"]
+        C2["Profiling CLI Wrappers"]
+        C3["Performance Regression Detector"]
+    end
 
-  Phase 4: Advanced Features (Months 8–10)
-  ├── Dev Time Machine (Git + Btrfs Snapshots)
-  ├── Database Snapshot & Time Travel Engine
-  ├── Secrets Vault Keyring Engine
-  └── Distributed Team Workspace Sync
+    subgraph P4 ["Phase 4: Advanced Features (M8-M10)"]
+        direction TB
+        D1["Dev Time Machine"]
+        D2["Database Snapshot Engine"]
+        D3["Secrets Vault Integration"]
+    end
 
-  Phase 5: Ecosystem & Polish (Months 10–12)
-  ├── Team Collaboration Tunneling
-  ├── System Hardening & Security Audit Profiles
-  └── Production Release v1.0 Packaging
+    subgraph P5 ["Phase 5: Release v1.0 (M10-M12)"]
+        direction TB
+        E1["Team Collaboration Tunneling"]
+        E2["Security Audit Profiles"]
+        E3["Production Release v1.0"]
+    end
+
+    P1 --> P2 --> P3 --> P4 --> P5
+
+    classDef p1 fill:#111726,stroke:#16db65,stroke-width:2px,color:#fff;
+    classDef p2 fill:#1b2234,stroke:#16db65,stroke-width:2px,color:#fff;
+    classDef p3 fill:#111726,stroke:#16db65,stroke-width:2px,color:#fff;
+    classDef p4 fill:#1b2234,stroke:#16db65,stroke-width:2px,color:#fff;
+    classDef p5 fill:#090d16,stroke:#16db65,stroke-width:2px,color:#fff;
+
+    class A1,A2,A3,A4 p1;
+    class B1,B2,B3 p2;
+    class C1,C2,C3 p3;
+    class D1,D2,D3 p4;
+    class E1,E2,E3 p5;
 \`\`\`
 
 ---
@@ -224,17 +263,23 @@ environment:
 
 ## 1. The Problem-Driven Learning Paradigm
 
-\`\`\`
-┌────────────────────────────────────────────────────────────────────────┐
-│                        Traditional vs. PeritiaOS                       │
-├───────────────────────────────────────┬────────────────────────────────┤
-│ Traditional Curriculum-Driven         │ PeritiaOS Problem-Driven       │
-├───────────────────────────────────────┼────────────────────────────────┤
-│ 1. Read theory about SAT solvers.    │ 1. Build naive package solver. │
-│ 2. Forget theory due to lack of use. │ 2. Hit cycle & infinite loop.  │
-│ 3. Face real problem years later.     │ 3. Discover need for SAT algorithm.│
-│                                       │ 4. Implement PubGrub & master it. │
-└───────────────────────────────────────┴────────────────────────────────┘
+\`\`\`mermaid
+flowchart TD
+    subgraph Trad ["Traditional Curriculum-Driven Approach"]
+        direction TB
+        T1["1. Read theory about SAT solvers"] --> T2["2. Forget theory due to lack of practical application"] --> T3["3. Face real production problems years later unprepared"]
+    end
+
+    subgraph Peritia ["PeritiaOS Problem-Driven Bootcamp"]
+        direction TB
+        P1["1. Build naive package solver"] --> P2["2. Encounter dependency cycle & infinite loop failure"] --> P3["3. Research SAT algorithms to solve real failure"] --> P4["4. Implement PubGrub solver & achieve systems mastery"]
+    end
+
+    classDef trad fill:#111726,stroke:#64748b,stroke-width:1.5px,color:#94a3b8;
+    classDef peritia fill:#1b2234,stroke:#16db65,stroke-width:2px,color:#f8fafc;
+
+    class T1,T2,T3 trad;
+    class P1,P2,P3,P4 peritia;
 \`\`\`
 
 ---
