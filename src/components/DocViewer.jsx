@@ -147,7 +147,7 @@ export function DocViewer({ doc, searchQuery, setTocItems }) {
 
   return (
     <div style={{ position: 'relative' }}>
-      {/* Category Badge */}
+      {/* Category Badge Header */}
       <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
         <span style={{
           background: 'rgba(56, 189, 248, 0.15)',
@@ -174,4 +174,3 @@ export function DocViewer({ doc, searchQuery, setTocItems }) {
     </div>
   );
 }
-
