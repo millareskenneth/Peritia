@@ -1,7 +1,7 @@
 'use client';
 
-import React from 'react';
-import { Cpu, GraduationCap, BookOpen, ChevronRight, CheckSquare, List, Library, PanelLeft } from 'lucide-react';
+import React, { useState } from 'react';
+import { Cpu, GraduationCap, BookOpen, ChevronRight, Library, PanelLeft } from 'lucide-react';
 
 const iconMap = {
   Cpu: Cpu,
@@ -9,7 +9,26 @@ const iconMap = {
   BookOpen: BookOpen
 };
 
-export function Sidebar({ docs, activeDocId, onSelectDoc, tocItems, activeTab, setActiveTab, isSidebarOpen, toggleSidebar }) {
+export function Sidebar({ docs, activeDocId, onSelectDoc, tocItems, isSidebarOpen, toggleSidebar }) {
+  const [collapsedDocs, setCollapsedDocs] = useState({});
+
+  const handleDocClick = (docId) => {
+    if (activeDocId === docId) {
+      // Toggle collapse/expand for active document
+      setCollapsedDocs(prev => ({
+        ...prev,
+        [docId]: !prev[docId]
+      }));
+    } else {
+      // Switch to new document and ensure it is expanded
+      onSelectDoc(docId);
+      setCollapsedDocs(prev => ({
+        ...prev,
+        [docId]: false
+      }));
+    }
+  };
+
   return (
     <aside className={`sidebar ${isSidebarOpen ? '' : 'collapsed'}`}>
       {/* Top Brand & Toggle Header Area inside Sidebar */}
@@ -18,7 +37,7 @@ export function Sidebar({ docs, activeDocId, onSelectDoc, tocItems, activeTab, s
           href="#"
           className="header-brand"
           style={{ textDecoration: 'none' }}
-          onClick={(e) => { e.preventDefault(); setActiveTab('docs'); }}
+          onClick={(e) => { e.preventDefault(); }}
           title="PeritiaOS"
         >
           <img
@@ -28,7 +47,7 @@ export function Sidebar({ docs, activeDocId, onSelectDoc, tocItems, activeTab, s
             height="34"
             style={{
               display: 'block',
-              filter: 'drop-shadow(0 0 8px rgba(249, 115, 22, 0.45))',
+              filter: 'drop-shadow(0 0 8px rgba(22, 219, 101, 0.45))',
               flexShrink: 0
             }}
           />
@@ -37,7 +56,7 @@ export function Sidebar({ docs, activeDocId, onSelectDoc, tocItems, activeTab, s
               <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                 <span style={{ fontWeight: 800, fontSize: '1.2rem', color: 'var(--text-primary)' }}>Peritia</span>
                 <span className="brand-badge" style={{
-                  background: 'linear-gradient(135deg, var(--accent-cyan), var(--accent-violet))',
+                  background: 'linear-gradient(135deg, var(--malachite), var(--sea-green))',
                   WebkitBackgroundClip: 'text',
                   WebkitTextFillColor: 'transparent',
                   fontWeight: 800,
@@ -51,7 +70,7 @@ export function Sidebar({ docs, activeDocId, onSelectDoc, tocItems, activeTab, s
           )}
         </a>
 
-        {/* Sidebar Toggle Button (Below system icon when closed, or top right when open) */}
+        {/* Sidebar Toggle Button */}
         <button
           className="sidebar-toggle-btn"
           onClick={toggleSidebar}
@@ -83,72 +102,69 @@ export function Sidebar({ docs, activeDocId, onSelectDoc, tocItems, activeTab, s
           <div style={{ height: '1px', background: 'var(--border-color)', margin: '12px 0' }} />
         )}
 
+        {/* Document Links with Collapsible Nested TOC Tree */}
         {docs.map((doc) => {
           const IconComponent = iconMap[doc.icon] || BookOpen;
-          const isActive = activeTab === 'docs' && activeDocId === doc.id;
+          const isActive = activeDocId === doc.id;
+          const isTocCollapsed = collapsedDocs[doc.id] === true;
+          const isTocVisible = isSidebarOpen && isActive && !isTocCollapsed && tocItems.length > 0;
+
           return (
-            <div
-              key={doc.id}
-              className={`sidebar-nav-item ${isActive ? 'active' : ''}`}
-              title={doc.title}
-              onClick={() => {
-                setActiveTab('docs');
-                onSelectDoc(doc.id);
-              }}
-            >
-              <IconComponent size={18} style={{ flexShrink: 0 }} />
-              {isSidebarOpen && (
-                <>
-                  <div style={{ flex: 1, whiteSpace: 'normal', wordBreak: 'break-word', lineHeight: 1.45 }}>
-                    {doc.title}
-                  </div>
-                  <ChevronRight size={14} style={{ opacity: isActive ? 1 : 0.4, flexShrink: 0 }} />
-                </>
+            <React.Fragment key={doc.id}>
+              <div
+                className={`sidebar-nav-item ${isActive ? 'active' : ''}`}
+                title={doc.title}
+                onClick={() => handleDocClick(doc.id)}
+              >
+                <IconComponent size={18} style={{ flexShrink: 0 }} />
+                {isSidebarOpen && (
+                  <>
+                    <div style={{ flex: 1, whiteSpace: 'normal', wordBreak: 'break-word', lineHeight: 1.45 }}>
+                      {doc.title}
+                    </div>
+                    <ChevronRight
+                      size={14}
+                      style={{
+                        opacity: isActive ? 1 : 0.4,
+                        flexShrink: 0,
+                        transform: isActive && !isTocCollapsed ? 'rotate(90deg)' : 'none',
+                        transition: 'transform 0.2s ease'
+                      }}
+                    />
+                  </>
+                )}
+              </div>
+
+              {/* Inline Nested Section TOC directly underneath the selected document */}
+              {isTocVisible && (
+                <div style={{
+                  paddingLeft: '24px',
+                  marginBottom: '12px',
+                  borderLeft: '2px solid rgba(22, 219, 101, 0.4)',
+                  marginLeft: '18px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '2px'
+                }}>
+                  {tocItems.map((item, idx) => (
+                    <a
+                      key={idx}
+                      href={`#${item.id}`}
+                      className="toc-item"
+                      style={{
+                        paddingLeft: `${(item.level - 1) * 8 + 6}px`,
+                        fontSize: '0.82rem'
+                      }}
+                    >
+                      {item.text}
+                    </a>
+                  ))}
+                </div>
               )}
-            </div>
+            </React.Fragment>
           );
         })}
       </div>
-
-      {/* Bootcamp Progress Tracker Button */}
-      <div
-        className={`sidebar-nav-item ${activeTab === 'tracker' ? 'active' : ''}`}
-        title="Bootcamp Progress Tracker"
-        style={{
-          marginTop: '8px',
-          background: activeTab === 'tracker' ? 'rgba(139, 92, 246, 0.15)' : 'var(--bg-tertiary)',
-          border: '1px solid var(--border-color)'
-        }}
-        onClick={() => setActiveTab('tracker')}
-      >
-        <CheckSquare size={18} style={{ color: 'var(--accent-violet)', flexShrink: 0 }} />
-        {isSidebarOpen && (
-          <div>
-            <div style={{ fontWeight: 600, color: 'var(--text-primary)' }}>Progress Tracker</div>
-            <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>12 Months & Readiness</div>
-          </div>
-        )}
-      </div>
-
-      {/* Table of Contents Section (Shown only when open) */}
-      {isSidebarOpen && activeTab === 'docs' && tocItems.length > 0 && (
-        <div className="toc-container">
-          <div className="toc-title" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-            <List size={14} />
-            <span>On This Page</span>
-          </div>
-          {tocItems.map((item, idx) => (
-            <a
-              key={idx}
-              href={`#${item.id}`}
-              className="toc-item"
-              style={{ paddingLeft: `${(item.level - 1) * 12 + 12}px` }}
-            >
-              {item.text}
-            </a>
-          ))}
-        </div>
-      )}
     </aside>
   );
 }

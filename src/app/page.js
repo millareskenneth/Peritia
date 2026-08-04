@@ -2,20 +2,25 @@
 
 import React, { useState, useEffect } from 'react';
 import { docsData } from '../data/docsData';
-import { Header } from '../components/Header';
 import { Sidebar } from '../components/Sidebar';
 import { DocViewer } from '../components/DocViewer';
-import { InteractiveTracker } from '../components/InteractiveTracker';
+import { Footer } from '../components/Footer';
 
 export default function Home() {
-  const [activeTab, setActiveTab] = useState('docs');
   const [activeDocId, setActiveDocId] = useState('system-architecture');
-  const [searchQuery, setSearchQuery] = useState('');
   const [tocItems, setTocItems] = useState([]);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   const toggleSidebar = () => {
     setIsSidebarOpen(prev => !prev);
+  };
+
+  const handleSelectDoc = (id) => {
+    setActiveDocId(id);
+    // Instant scroll to top when switching documents
+    window.scrollTo(0, 0);
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
   };
 
   // Keyboard shortcut (Ctrl+B or Cmd+B) to toggle sidebar
@@ -38,39 +43,20 @@ export default function Home() {
       <Sidebar
         docs={docsData}
         activeDocId={activeDocId}
-        onSelectDoc={(id) => {
-          setActiveDocId(id);
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-        }}
+        onSelectDoc={handleSelectDoc}
         tocItems={tocItems}
-        activeTab={activeTab}
-        setActiveTab={setActiveTab}
         isSidebarOpen={isSidebarOpen}
         toggleSidebar={toggleSidebar}
       />
 
-      {/* Main App Container (Header + Content) */}
+      {/* Main App Container (DocViewer + Floating Footer) */}
       <div className="app-main-wrapper">
-        <Header
-          searchQuery={searchQuery}
-          setSearchQuery={setSearchQuery}
-          activeTab={activeTab}
-          setActiveTab={setActiveTab}
-          activeDocTitle={activeDoc.title}
-          isSidebarOpen={isSidebarOpen}
-          toggleSidebar={toggleSidebar}
-        />
-
         <main className="main-content">
-          {activeTab === 'docs' ? (
-            <DocViewer
-              doc={activeDoc}
-              searchQuery={searchQuery}
-              setTocItems={setTocItems}
-            />
-          ) : (
-            <InteractiveTracker />
-          )}
+          <DocViewer
+            doc={activeDoc}
+            setTocItems={setTocItems}
+          />
+          <Footer />
         </main>
       </div>
     </div>
