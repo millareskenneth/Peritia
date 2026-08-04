@@ -139,8 +139,11 @@ export function InteractiveTracker() {
         </div>
       </div>
 
+      {/* Section Divider */}
+      <div className="content-divider" />
+
       {/* 12-Month Milestones Section */}
-      <div style={{ marginTop: '32px' }}>
+      <div>
         <h2 style={{ fontSize: '1.3rem', fontWeight: 700, color: 'var(--accent-cyan)', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
           <Trophy size={20} />
           12-Month Engineering Milestones
@@ -190,8 +193,11 @@ export function InteractiveTracker() {
         </div>
       </div>
 
+      {/* Section Divider */}
+      <div className="content-divider" />
+
       {/* Prerequisites Checklist Section */}
-      <div style={{ marginTop: '36px' }}>
+      <div>
         <h2 style={{ fontSize: '1.3rem', fontWeight: 700, color: 'var(--accent-violet)', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
           <ShieldCheck size={20} />
           Prerequisite Skills Readiness Checklist
