@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Cpu, GraduationCap, BookOpen, ChevronRight, Library, PanelLeft } from 'lucide-react';
+import { Cpu, GraduationCap, BookOpen, ChevronRight, Library, PanelLeft, X } from 'lucide-react';
 
 const iconMap = {
   Cpu: Cpu,
@@ -9,7 +9,7 @@ const iconMap = {
   BookOpen: BookOpen
 };
 
-export function Sidebar({ docs, activeDocId, onSelectDoc, tocItems, isSidebarOpen, toggleSidebar }) {
+export function Sidebar({ docs, activeDocId, onSelectDoc, tocItems, isSidebarOpen, toggleSidebar, isMobile, onCloseMobile }) {
   const [collapsedDocs, setCollapsedDocs] = useState({});
 
   const handleDocClick = (docId) => {
@@ -29,8 +29,20 @@ export function Sidebar({ docs, activeDocId, onSelectDoc, tocItems, isSidebarOpe
     }
   };
 
+  const handleTocClick = () => {
+    if (isMobile && onCloseMobile) {
+      onCloseMobile();
+    }
+  };
+
+  const sidebarClass = isMobile
+    ? `sidebar mobile-sidebar ${isSidebarOpen ? 'mobile-open' : ''}`
+    : `sidebar ${isSidebarOpen ? '' : 'collapsed'}`;
+
+  const showFullContent = isMobile ? true : isSidebarOpen;
+
   return (
-    <aside className={`sidebar ${isSidebarOpen ? '' : 'collapsed'}`}>
+    <aside className={sidebarClass}>
       {/* Top Brand & Toggle Header Area inside Sidebar */}
       <div className="sidebar-top-brand">
         <a
@@ -51,7 +63,7 @@ export function Sidebar({ docs, activeDocId, onSelectDoc, tocItems, isSidebarOpe
               flexShrink: 0
             }}
           />
-          {isSidebarOpen && (
+          {showFullContent && (
             <div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                 <span style={{ fontWeight: 800, fontSize: '1.2rem', color: 'var(--text-primary)' }}>Peritia</span>
@@ -70,19 +82,19 @@ export function Sidebar({ docs, activeDocId, onSelectDoc, tocItems, isSidebarOpe
           )}
         </a>
 
-        {/* Sidebar Toggle Button */}
+        {/* Sidebar Toggle / Close Button */}
         <button
           className="sidebar-toggle-btn"
-          onClick={toggleSidebar}
-          title={isSidebarOpen ? "Collapse Sidebar (Ctrl+B)" : "Expand Sidebar (Ctrl+B)"}
+          onClick={isMobile ? onCloseMobile : toggleSidebar}
+          title={isMobile ? "Close Navigation Menu" : (isSidebarOpen ? "Collapse Sidebar (Ctrl+B)" : "Expand Sidebar (Ctrl+B)")}
           aria-label="Toggle Sidebar"
         >
-          <PanelLeft size={19} />
+          {isMobile ? <X size={19} /> : <PanelLeft size={19} />}
         </button>
       </div>
 
       <div style={{ marginBottom: '20px' }}>
-        {isSidebarOpen ? (
+        {showFullContent ? (
           <div style={{
             fontSize: '0.75rem',
             fontWeight: 700,
@@ -107,7 +119,7 @@ export function Sidebar({ docs, activeDocId, onSelectDoc, tocItems, isSidebarOpe
           const IconComponent = iconMap[doc.icon] || BookOpen;
           const isActive = activeDocId === doc.id;
           const isTocCollapsed = collapsedDocs[doc.id] === true;
-          const isTocVisible = isSidebarOpen && isActive && !isTocCollapsed && tocItems.length > 0;
+          const isTocVisible = showFullContent && isActive && !isTocCollapsed && tocItems.length > 0;
 
           return (
             <React.Fragment key={doc.id}>
@@ -117,7 +129,7 @@ export function Sidebar({ docs, activeDocId, onSelectDoc, tocItems, isSidebarOpe
                 onClick={() => handleDocClick(doc.id)}
               >
                 <IconComponent size={18} style={{ flexShrink: 0 }} />
-                {isSidebarOpen && (
+                {showFullContent && (
                   <>
                     <div style={{ flex: 1, whiteSpace: 'normal', wordBreak: 'break-word', lineHeight: 1.45 }}>
                       {doc.title}
@@ -151,6 +163,7 @@ export function Sidebar({ docs, activeDocId, onSelectDoc, tocItems, isSidebarOpe
                       key={idx}
                       href={`#${item.id}`}
                       className="toc-item"
+                      onClick={handleTocClick}
                       style={{
                         paddingLeft: `${(item.level - 1) * 8 + 6}px`,
                         fontSize: '0.82rem'
