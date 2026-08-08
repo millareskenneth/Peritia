@@ -1,7 +1,6 @@
 'use client';
 
-import { Burger, Drawer, Group, ScrollArea } from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
+import { Burger, Group } from '@mantine/core';
 import { useLanguageTheme } from '../language-themes/LanguageThemeProvider';
 import classes from './Header.module.css';
 
@@ -16,7 +15,6 @@ export function Header({
   onBurgerClick,
   showBurger = false,
 }) {
-  const [drawerOpened, { open: openDrawer, close: closeDrawer }] = useDisclosure(false);
   const { language } = useLanguageTheme();
   const t = language.terms;
 
@@ -29,7 +27,6 @@ export function Header({
       onClick={(event) => {
         event.preventDefault();
         link.onClick?.(event);
-        closeDrawer();
       }}
     >
       {link.label}
@@ -64,36 +61,7 @@ export function Header({
         <Group gap="xs" wrap="nowrap" visibleFrom="sm" className={classes.metaAside}>
           <div className={classes.links}>{navItems}</div>
         </Group>
-
-        <Burger
-          opened={drawerOpened}
-          onClick={drawerOpened ? closeDrawer : openDrawer}
-          hiddenFrom="sm"
-          size="sm"
-          color="var(--text-muted)"
-          aria-label="Open links menu"
-        />
       </div>
-
-      <Drawer
-        opened={drawerOpened}
-        onClose={closeDrawer}
-        size="100%"
-        padding="md"
-        title="Navigate"
-        hiddenFrom="sm"
-        zIndex={1000000}
-      >
-        <ScrollArea h="calc(100vh - 80px)" mx="-md">
-          <div className={classes.drawerMeta}>
-            <div className={classes.metaTitle}>{activeDoc?.title || '—'}</div>
-            {activeDoc?.summary ? (
-              <p className={classes.metaSummary}>{activeDoc.summary}</p>
-            ) : null}
-          </div>
-          {navItems}
-        </ScrollArea>
-      </Drawer>
     </header>
   );
 }

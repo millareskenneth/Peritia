@@ -79,7 +79,13 @@ export function Sidebar({
         </Tooltip>
       </div>
 
-      <ScrollArea className={classes.links}>
+      <ScrollArea
+        className={classes.links}
+        type="scroll"
+        scrollbars="y"
+        offsetScrollbars
+        scrollbarSize={8}
+      >
         <div className={classes.linksInner}>
           {showFullContent ? (
             <div className={classes.sectionLabel}>

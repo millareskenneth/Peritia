@@ -35,7 +35,10 @@ export function DocLinksGroup({
       onClick={(event) => {
         onLinkClick?.(event, link);
       }}
-      style={{ paddingLeft: `${(link.level - 1) * 8 + 12}px` }}
+      style={{
+        paddingLeft: `${Math.min((link.level - 1) * 8 + 12, 40)}px`,
+        maxWidth: '100%',
+      }}
     >
       {link.text}
     </Text>
