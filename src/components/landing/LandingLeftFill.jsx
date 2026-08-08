@@ -6,7 +6,7 @@ import classes from './landing.module.css';
 
 const NOTES = [
   { code: 'N01', text: 'Docs portal mounted at /docs' },
-  { code: 'N02', text: 'LANGUAGE MODES remaps personality only' },
+  { code: 'N02', text: 'LANGUAGE MODES remaps chrome only — system description stays fixed' },
   { code: 'N03', text: 'AGPLv3 license · release channel V1.0' },
   { code: 'N04', text: 'Operator surface: architecture dataset' },
 ];
