@@ -5,6 +5,15 @@
  * Personality + terminology — colors live in languages.css
  */
 
+/** Fixed product copy — never swap this when LANGUAGE MODES change */
+export const SYSTEM_COPY = {
+  name: 'PeritiaOS',
+  eyebrow: 'Developer Operating System',
+  tagline: 'Build the System. Become the Architect.',
+  description:
+    'An open-source Linux distribution for engineers who want the whole stack under their hands — hardened base, declared toolchains, observability, and environment parity from first boot.',
+};
+
 /** @type {Record<LangId, object>} */
 export const LANGUAGE_THEMES = {
   cobol: {
