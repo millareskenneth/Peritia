@@ -5,7 +5,6 @@ import { marked } from 'marked';
 import hljs from 'highlight.js';
 import mermaid from 'mermaid';
 import 'highlight.js/styles/atom-one-dark.css';
-import { Cpu, GraduationCap, BookOpen, Tag } from 'lucide-react';
 import { DiagramCanvasModal } from './DiagramCanvasModal';
 
 mermaid.initialize({
@@ -26,12 +25,6 @@ mermaid.initialize({
   }
 });
 
-const iconMap = {
-  Cpu,
-  GraduationCap,
-  BookOpen
-};
-
 const lucideSvgs = {
   copy: `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-copy"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>`,
   check: `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check"><polyline points="20 6 9 17 4 12"/></svg>`,
@@ -44,7 +37,6 @@ const lucideSvgs = {
 
 export function DocViewer({ doc, setTocItems }) {
   const contentRef = useRef(null);
-  const CategoryIcon = (doc && iconMap[doc.icon]) || Tag;
 
   const [modalData, setModalData] = useState(null);
 
@@ -240,28 +232,6 @@ export function DocViewer({ doc, setTocItems }) {
 
   return (
     <div style={{ position: 'relative' }}>
-      {/* Category Badge Header */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
-        <span style={{
-          background: 'rgba(56, 189, 248, 0.15)',
-          color: 'var(--accent-cyan)',
-          padding: '4px 12px',
-          borderRadius: '20px',
-          fontSize: '0.8rem',
-          fontWeight: 600,
-          border: '1px solid rgba(56, 189, 248, 0.3)',
-          display: 'inline-flex',
-          alignItems: 'center',
-          gap: '6px'
-        }}>
-          <CategoryIcon size={14} />
-          {doc.category}
-        </span>
-        <span style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>
-          {doc.badge}
-        </span>
-      </div>
-
       {/* Rendered Document Content */}
       <div ref={contentRef} className="markdown-body" />
 
