@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { SYSTEM_COPY } from '../../language-themes/catalog';
 import { useLanguageTheme } from '../../language-themes/LanguageThemeProvider';
 import classes from './landing.module.css';
 
@@ -14,7 +15,7 @@ export function LandingNav() {
         <img src="/peritia.svg" alt="" width={26} height={26} />
         <span>
           <span className={classes.brandName}>PERITIAOS</span>
-          <span className={classes.brandSub}>{language.tagline}</span>
+          <span className={classes.brandSub}>{SYSTEM_COPY.eyebrow}</span>
         </span>
       </Link>
 

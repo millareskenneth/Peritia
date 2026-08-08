@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { SYSTEM_COPY } from '../../language-themes/catalog';
 import { useLanguageTheme } from '../../language-themes/LanguageThemeProvider';
 import classes from './landing.module.css';
 
@@ -18,13 +19,13 @@ export function LandingHero() {
           <span className={classes.panelHeadId}>REC 0001 · {t.workingStorage}</span>
         </div>
         <div className={classes.panelBody}>
-          <p className={classes.sectionKicker}>{language.name} · {language.tagline}</p>
+          <p className={classes.sectionKicker}>{SYSTEM_COPY.eyebrow}</p>
           <h1 className={classes.programTitle}>
             PERITIA<span>OS</span>
           </h1>
-          <p className={classes.heroLead}>{language.personality}</p>
+          <p className={classes.heroLead}>{SYSTEM_COPY.description}</p>
           <p className={classes.heroSupport}>
-            MSG-001 {t.ready} — LANGUAGE MODES change personality, not function.
+            MSG-001 {t.ready} — {SYSTEM_COPY.tagline}
           </p>
           <div className={classes.ctaRow}>
             <Link href="/docs" className={classes.btnPrimary}>
