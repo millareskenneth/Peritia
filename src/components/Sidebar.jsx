@@ -1,183 +1,128 @@
 'use client';
 
-import React, { useState } from 'react';
-import { Cpu, GraduationCap, BookOpen, ChevronRight, Library, PanelLeft, X } from 'lucide-react';
+import { ActionIcon, Code, Group, ScrollArea, Text, Tooltip } from '@mantine/core';
+import { BookOpen, Cpu, Library, PanelLeft, X } from 'lucide-react';
+import { useLanguageTheme } from '../language-themes/LanguageThemeProvider';
+import { DocLinksGroup } from './DocLinksGroup';
+import classes from './Sidebar.module.css';
 
 const iconMap = {
-  Cpu: Cpu,
-  GraduationCap: GraduationCap,
-  BookOpen: BookOpen
+  Cpu,
+  BookOpen,
 };
 
-export function Sidebar({ docs, activeDocId, onSelectDoc, tocItems, isSidebarOpen, toggleSidebar, isMobile, onCloseMobile }) {
-  const [collapsedDocs, setCollapsedDocs] = useState({});
-
-  const handleDocClick = (docId) => {
-    if (activeDocId === docId) {
-      // Toggle collapse/expand for active document
-      setCollapsedDocs(prev => ({
-        ...prev,
-        [docId]: !prev[docId]
-      }));
-    } else {
-      // Switch to new document and ensure it is expanded
-      onSelectDoc(docId);
-      setCollapsedDocs(prev => ({
-        ...prev,
-        [docId]: false
-      }));
-    }
-  };
-
-  const handleTocClick = () => {
-    if (isMobile && onCloseMobile) {
-      onCloseMobile();
-    }
-  };
-
-  const sidebarClass = isMobile
-    ? `sidebar mobile-sidebar ${isSidebarOpen ? 'mobile-open' : ''}`
-    : `sidebar ${isSidebarOpen ? '' : 'collapsed'}`;
-
+/**
+ * Adapted from Mantine UI — Nested navbar + links group
+ * @see https://ui.mantine.dev/component/navbar-nested
+ * @see https://ui.mantine.dev/component/navbar-links-group
+ */
+export function Sidebar({
+  docs,
+  activeDocId,
+  onSelectDoc,
+  tocItems,
+  isSidebarOpen,
+  toggleSidebar,
+  isMobile,
+  onCloseMobile,
+}) {
   const showFullContent = isMobile ? true : isSidebarOpen;
+  const { language } = useLanguageTheme();
+  const t = language.terms;
 
   return (
-    <aside className={sidebarClass}>
-      {/* Top Brand & Toggle Header Area inside Sidebar */}
-      <div className="sidebar-top-brand">
-        <a
-          href="#"
-          className="header-brand"
-          style={{ textDecoration: 'none' }}
-          onClick={(e) => { e.preventDefault(); }}
-          title="PeritiaOS"
-        >
+    <nav className={`${classes.navbar} ${showFullContent ? '' : classes.navbarCollapsed}`}>
+      <div className={`${classes.header} ${showFullContent ? '' : classes.headerCollapsed}`}>
+        <a href="/" className={classes.brand} title="PeritiaOS Home">
           <img
             src="/peritia.svg"
             alt="PeritiaOS Icon"
-            width="34"
-            height="34"
+            width={34}
+            height={34}
             style={{
               display: 'block',
-              filter: 'drop-shadow(0 0 8px rgba(22, 219, 101, 0.45))',
-              flexShrink: 0
+              filter: 'sepia(0.3) saturate(0.65)',
+              flexShrink: 0,
             }}
           />
           {showFullContent && (
             <div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                <span style={{ fontWeight: 800, fontSize: '1.2rem', color: 'var(--text-primary)' }}>Peritia</span>
-                <span className="brand-badge" style={{
-                  background: 'linear-gradient(135deg, var(--malachite), var(--sea-green))',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  fontWeight: 800,
-                  fontSize: '1.1rem'
-                }}>OS</span>
+              <div className={classes.brandTitle}>
+                Peritia<span className={classes.brandAccent}>OS</span>
               </div>
-              <span style={{ fontSize: '0.7rem', display: 'block', color: 'var(--text-muted)', fontWeight: 500, marginTop: '-4px' }}>
-                Developer OS Portal
-              </span>
+              <span className={classes.brandSub}>{t.docsRegion}</span>
             </div>
           )}
         </a>
 
-        {/* Sidebar Toggle / Close Button */}
-        <button
-          className="sidebar-toggle-btn"
-          onClick={isMobile ? onCloseMobile : toggleSidebar}
-          title={isMobile ? "Close Navigation Menu" : (isSidebarOpen ? "Collapse Sidebar (Ctrl+B)" : "Expand Sidebar (Ctrl+B)")}
-          aria-label="Toggle Sidebar"
+        <Tooltip
+          label={isMobile ? 'Close menu' : isSidebarOpen ? 'Collapse (Ctrl+B)' : 'Expand (Ctrl+B)'}
+          position="right"
+          withArrow
         >
-          {isMobile ? <X size={19} /> : <PanelLeft size={19} />}
-        </button>
+          <ActionIcon
+            variant="default"
+            size="lg"
+            onClick={isMobile ? onCloseMobile : toggleSidebar}
+            aria-label="Toggle Sidebar"
+            className={classes.toggle}
+            styles={{
+              root: {
+                background: 'var(--bg-tertiary)',
+                borderColor: 'var(--border-color)',
+                color: 'var(--text-muted)',
+              },
+            }}
+          >
+            {isMobile ? <X size={18} /> : <PanelLeft size={18} />}
+          </ActionIcon>
+        </Tooltip>
       </div>
 
-      <div style={{ marginBottom: '20px' }}>
-        {showFullContent ? (
-          <div style={{
-            fontSize: '0.75rem',
-            fontWeight: 700,
-            textTransform: 'uppercase',
-            letterSpacing: '0.08em',
-            color: 'var(--text-muted)',
-            marginBottom: '12px',
-            paddingLeft: '8px',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '6px'
-          }}>
-            <Library size={14} />
-            <span>Documentation Library</span>
-          </div>
-        ) : (
-          <div style={{ height: '1px', background: 'var(--border-color)', margin: '12px 0' }} />
-        )}
+      <ScrollArea className={classes.links}>
+        <div className={classes.linksInner}>
+          {showFullContent ? (
+            <div className={classes.sectionLabel}>
+              <Library size={14} />
+              <span>{t.datasetLibrary}</span>
+            </div>
+          ) : null}
 
-        {/* Document Links with Collapsible Nested TOC Tree */}
-        {docs.map((doc) => {
-          const IconComponent = iconMap[doc.icon] || BookOpen;
-          const isActive = activeDocId === doc.id;
-          const isTocCollapsed = collapsedDocs[doc.id] === true;
-          const isTocVisible = showFullContent && isActive && !isTocCollapsed && tocItems.length > 0;
+          {docs.map((doc) => {
+            const IconComponent = iconMap[doc.icon] || BookOpen;
+            const isActive = activeDocId === doc.id;
 
-          return (
-            <React.Fragment key={doc.id}>
-              <div
-                className={`sidebar-nav-item ${isActive ? 'active' : ''}`}
-                title={doc.title}
-                onClick={() => handleDocClick(doc.id)}
-              >
-                <IconComponent size={18} style={{ flexShrink: 0 }} />
-                {showFullContent && (
-                  <>
-                    <div style={{ flex: 1, whiteSpace: 'normal', wordBreak: 'break-word', lineHeight: 1.45 }}>
-                      {doc.title}
-                    </div>
-                    <ChevronRight
-                      size={14}
-                      style={{
-                        opacity: isActive ? 1 : 0.4,
-                        flexShrink: 0,
-                        transform: isActive && !isTocCollapsed ? 'rotate(90deg)' : 'none',
-                        transition: 'transform 0.2s ease'
-                      }}
-                    />
-                  </>
-                )}
-              </div>
+            return (
+              <DocLinksGroup
+                key={doc.id}
+                icon={IconComponent}
+                label={doc.title}
+                active={isActive}
+                initiallyOpened={isActive}
+                links={isActive ? tocItems : []}
+                collapsed={!showFullContent}
+                onSelect={() => onSelectDoc(doc.id)}
+                onLinkClick={() => {
+                  if (isMobile && onCloseMobile) onCloseMobile();
+                }}
+              />
+            );
+          })}
+        </div>
+      </ScrollArea>
 
-              {/* Inline Nested Section TOC directly underneath the selected document */}
-              {isTocVisible && (
-                <div style={{
-                  paddingLeft: '24px',
-                  marginBottom: '12px',
-                  borderLeft: '2px solid rgba(22, 219, 101, 0.4)',
-                  marginLeft: '18px',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: '2px'
-                }}>
-                  {tocItems.map((item, idx) => (
-                    <a
-                      key={idx}
-                      href={`#${item.id}`}
-                      className="toc-item"
-                      onClick={handleTocClick}
-                      style={{
-                        paddingLeft: `${(item.level - 1) * 8 + 6}px`,
-                        fontSize: '0.82rem'
-                      }}
-                    >
-                      {item.text}
-                    </a>
-                  ))}
-                </div>
-              )}
-            </React.Fragment>
-          );
-        })}
-      </div>
-    </aside>
+      {showFullContent && (
+        <div className={classes.footer}>
+          <Group justify="space-between">
+            <Text size="xs" c="dimmed" fw={600} ff="monospace">
+              {t.docsRegion}
+            </Text>
+            <Code fw={700} style={{ background: 'rgba(74, 107, 74, 0.12)', color: '#4A6B4A' }}>
+              V1.0
+            </Code>
+          </Group>
+        </div>
+      )}
+    </nav>
   );
 }
