@@ -71,28 +71,53 @@ export default function DocsPortalPage() {
     >
       <AppShell
         layout="alt"
-        header={{ height: HEADER_HEIGHT }}
+        header={{ height: { base: 'auto', md: HEADER_HEIGHT } }}
         navbar={{
-          width: navbarWidth,
+          // Cap mobile drawer so a closed/translated navbar cannot stretch the page sideways.
+          width: { base: 300, md: navbarWidth },
           breakpoint: 'md',
           collapsed: { mobile: !mobileNavOpened, desktop: false },
         }}
         padding={0}
         styles={{
+          root: {
+            overflowX: 'clip',
+            ...(isMobile
+              ? {
+                  '--app-shell-navbar-offset': '0px',
+                  '--app-shell-aside-offset': '0px',
+                }
+              : null),
+          },
           main: {
             background: 'transparent',
             minHeight: '100vh',
+            overflowX: 'clip',
+            width: '100%',
+            maxWidth: '100%',
+            paddingInline: 0,
+            marginInline: 0,
+            boxSizing: 'border-box',
           },
           navbar: {
             background: 'var(--bg-secondary)',
             borderRight: '1px solid var(--border-strong)',
-            transition: 'width 200ms ease',
+            transition: 'width 200ms ease, transform 200ms ease',
             top: 0,
             height: '100dvh',
+            maxWidth: 'min(300px, 88vw)',
+            overflowX: 'hidden',
+            overflowY: 'hidden',
           },
           header: {
             background: 'var(--bg-secondary)',
             borderBottom: '1px solid var(--border-color)',
+            left: isMobile ? 0 : undefined,
+            width: isMobile ? '100%' : undefined,
+            maxWidth: '100%',
+            height: isMobile ? 'auto' : undefined,
+            minHeight: isMobile ? 0 : HEADER_HEIGHT,
+            overflow: 'visible',
           },
         }}
       >
