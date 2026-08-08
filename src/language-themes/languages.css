@@ -1,0 +1,466 @@
+/**
+ * LANGUAGE MODES — full visual identity packs
+ * Applied via html[data-lang="..."]
+ */
+
+html {
+  color-scheme: light;
+  transition:
+    background-color 380ms ease,
+    color 380ms ease;
+}
+
+html[data-lang='fortran'],
+html[data-lang='c'],
+html[data-lang='assembly'],
+html[data-lang='ada'] {
+  color-scheme: dark;
+}
+
+/* Shared semantic aliases used by landing + docs */
+html,
+html[data-lang='cobol'] {
+  --bg-primary: #f3efe4;
+  --bg-secondary: #ede6d6;
+  --bg-tertiary: #e2d9c4;
+  --bg-glass: rgba(237, 230, 214, 0.94);
+  --bg-ink: #2c2416;
+  --bg-terminal: #241f18;
+  --border-color: rgba(44, 36, 22, 0.16);
+  --border-accent: rgba(74, 107, 74, 0.45);
+  --border-strong: rgba(44, 36, 22, 0.28);
+  --text-primary: #1f1a14;
+  --text-secondary: #3d3428;
+  --text-muted: #6b6154;
+  --text-inverse: #f7f2e6;
+  --accent-green: #4a6b4a;
+  --accent-olive: #6b7054;
+  --accent-amber: #c4953a;
+  --accent-steel: #4a5e72;
+  --accent-cyan: #4a6b4a;
+  --accent-blue: #4a5e72;
+  --accent-rose: #8b4a4a;
+  --radius-panel: 2px;
+  --font-heading: var(--font-ibm-plex-mono), 'IBM Plex Mono', monospace;
+  --font-body: var(--font-ibm-plex-sans), 'IBM Plex Sans', system-ui, sans-serif;
+  --font-mono: var(--font-ibm-plex-mono), 'IBM Plex Mono', monospace;
+  --font-logo: var(--font-mono);
+
+  --lang-bg: #f3efe4;
+  --lang-bg-elevated: #f7f2e6;
+  --lang-bg-panel: #ede6d6;
+  --lang-bg-head: #e2d9c4;
+  --lang-bg-inverse: #1f1a14;
+  --lang-ink: #1f1a14;
+  --lang-ink-soft: #3d3428;
+  --lang-mute: #6b6154;
+  --lang-inverse: #f7f2e6;
+  --lang-accent: #4a6b4a;
+  --lang-accent-2: #c4953a;
+  --lang-accent-3: #4a5e72;
+  --lang-rule: rgba(44, 36, 22, 0.18);
+  --lang-rule-strong: rgba(44, 36, 22, 0.32);
+  --lang-radius: 2px;
+  --lang-shadow: none;
+  --lang-density-pad: 0.85rem;
+  --lang-tracking: 0.04em;
+  --lang-pattern: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 3px,
+    rgba(44, 36, 22, 0.012) 3px,
+    rgba(44, 36, 22, 0.012) 4px
+  );
+  --lang-page-grad: linear-gradient(180deg, #f7f2e6 0%, #f3efe4 35%, #ede6d6 100%);
+  --lang-title-transform: uppercase;
+  --lang-title-weight: 700;
+  --lang-panel-border: 1px solid var(--lang-rule-strong);
+  --lang-inverse-head: #1f1a14;
+  --lang-inverse-ink: #f7f2e6;
+  --lang-status-ok: #4a6b4a;
+  --lang-warn: #c4953a;
+  --lang-danger: #8b4a4a;
+  --lang-grid-line: rgba(74, 107, 74, 0.08);
+}
+
+html[data-lang='fortran'] {
+  --bg-primary: #0b1c2e;
+  --bg-secondary: #12263b;
+  --bg-tertiary: #1a334d;
+  --bg-glass: rgba(18, 38, 59, 0.94);
+  --bg-ink: #071320;
+  --bg-terminal: #071320;
+  --border-color: rgba(160, 190, 220, 0.16);
+  --border-accent: rgba(61, 126, 166, 0.55);
+  --border-strong: rgba(160, 190, 220, 0.28);
+  --text-primary: #f4f7fb;
+  --text-secondary: #c5d3e2;
+  --text-muted: #8497ab;
+  --text-inverse: #0b1c2e;
+  --accent-green: #3d7ea6;
+  --accent-olive: #2f6a8c;
+  --accent-amber: #e07a3d;
+  --accent-steel: #7aa0bc;
+  --accent-cyan: #5eb1c7;
+  --accent-blue: #3d7ea6;
+  --accent-rose: #c45c4a;
+  --radius-panel: 0px;
+  --font-heading: var(--font-barlow), 'Barlow', system-ui, sans-serif;
+  --font-body: var(--font-barlow), 'Barlow', system-ui, sans-serif;
+  --font-mono: var(--font-ibm-plex-mono), 'IBM Plex Mono', monospace;
+  --font-logo: var(--font-mono);
+
+  --lang-bg: #0b1c2e;
+  --lang-bg-elevated: #12263b;
+  --lang-bg-panel: #12263b;
+  --lang-bg-head: #1a334d;
+  --lang-bg-inverse: #e07a3d;
+  --lang-ink: #f4f7fb;
+  --lang-ink-soft: #c5d3e2;
+  --lang-mute: #8497ab;
+  --lang-inverse: #0b1c2e;
+  --lang-accent: #3d7ea6;
+  --lang-accent-2: #e07a3d;
+  --lang-accent-3: #5eb1c7;
+  --lang-rule: rgba(160, 190, 220, 0.16);
+  --lang-rule-strong: rgba(160, 190, 220, 0.3);
+  --lang-radius: 0px;
+  --lang-shadow: 0 0 0 1px rgba(94, 177, 199, 0.08);
+  --lang-density-pad: 0.9rem;
+  --lang-tracking: 0.08em;
+  --lang-pattern: linear-gradient(rgba(94, 177, 199, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(94, 177, 199, 0.05) 1px, transparent 1px);
+  --lang-pattern-size: 28px 28px;
+  --lang-page-grad: radial-gradient(ellipse at 20% 0%, rgba(61, 126, 166, 0.25), transparent 50%),
+    #0b1c2e;
+  --lang-title-transform: uppercase;
+  --lang-title-weight: 600;
+  --lang-panel-border: 1px solid var(--lang-rule-strong);
+  --lang-inverse-head: #1a334d;
+  --lang-inverse-ink: #f4f7fb;
+  --lang-status-ok: #5eb1c7;
+  --lang-warn: #e07a3d;
+  --lang-danger: #c45c4a;
+  --lang-grid-line: rgba(94, 177, 199, 0.12);
+}
+
+html[data-lang='haskell'] {
+  --bg-primary: #f7f4fb;
+  --bg-secondary: #efe9f7;
+  --bg-tertiary: #e4dbf0;
+  --bg-glass: rgba(247, 244, 251, 0.94);
+  --bg-ink: #2a2438;
+  --bg-terminal: #2a2438;
+  --border-color: rgba(91, 75, 138, 0.14);
+  --border-accent: rgba(91, 75, 138, 0.4);
+  --border-strong: rgba(91, 75, 138, 0.25);
+  --text-primary: #2a2438;
+  --text-secondary: #4a425f;
+  --text-muted: #7a7194;
+  --text-inverse: #f7f4fb;
+  --accent-green: #5b4b8a;
+  --accent-olive: #4a3c72;
+  --accent-amber: #c45c9a;
+  --accent-steel: #6b6190;
+  --accent-cyan: #7b6bb0;
+  --accent-blue: #5b4b8a;
+  --accent-rose: #c45c9a;
+  --radius-panel: 12px;
+  --font-heading: var(--font-cormorant), 'Cormorant Garamond', Georgia, serif;
+  --font-body: var(--font-ibm-plex-sans), 'IBM Plex Sans', system-ui, sans-serif;
+  --font-mono: var(--font-ibm-plex-mono), 'IBM Plex Mono', monospace;
+  --font-logo: var(--font-heading);
+
+  --lang-bg: #f7f4fb;
+  --lang-bg-elevated: #fffcff;
+  --lang-bg-panel: #fffcff;
+  --lang-bg-head: #efe9f7;
+  --lang-bg-inverse: #2a2438;
+  --lang-ink: #2a2438;
+  --lang-ink-soft: #4a425f;
+  --lang-mute: #7a7194;
+  --lang-inverse: #f7f4fb;
+  --lang-accent: #5b4b8a;
+  --lang-accent-2: #c45c9a;
+  --lang-accent-3: #7b6bb0;
+  --lang-rule: rgba(91, 75, 138, 0.14);
+  --lang-rule-strong: rgba(91, 75, 138, 0.24);
+  --lang-radius: 12px;
+  --lang-shadow: 0 18px 40px rgba(42, 36, 56, 0.06);
+  --lang-density-pad: 1.35rem;
+  --lang-tracking: 0.02em;
+  --lang-pattern: radial-gradient(circle at 12% 18%, rgba(196, 92, 154, 0.07), transparent 28%),
+    radial-gradient(circle at 88% 0%, rgba(91, 75, 138, 0.08), transparent 32%);
+  --lang-page-grad: linear-gradient(165deg, #fffcff 0%, #f7f4fb 45%, #efe9f7 100%);
+  --lang-title-transform: none;
+  --lang-title-weight: 600;
+  --lang-panel-border: 1px solid var(--lang-rule);
+  --lang-inverse-head: #2a2438;
+  --lang-inverse-ink: #f7f4fb;
+  --lang-status-ok: #5b4b8a;
+  --lang-warn: #c45c9a;
+  --lang-danger: #a13d5c;
+  --lang-grid-line: rgba(91, 75, 138, 0.08);
+}
+
+html[data-lang='c'] {
+  --bg-primary: #121417;
+  --bg-secondary: #1a1e23;
+  --bg-tertiary: #242a31;
+  --bg-glass: rgba(26, 30, 35, 0.94);
+  --bg-ink: #0c0e10;
+  --bg-terminal: #0c0e10;
+  --border-color: rgba(200, 210, 220, 0.12);
+  --border-accent: rgba(95, 143, 107, 0.45);
+  --border-strong: rgba(200, 210, 220, 0.22);
+  --text-primary: #e8e6e3;
+  --text-secondary: #c2c0bb;
+  --text-muted: #8a8883;
+  --text-inverse: #121417;
+  --accent-green: #5f8f6b;
+  --accent-olive: #4a7354;
+  --accent-amber: #c9793a;
+  --accent-steel: #3d5a73;
+  --accent-cyan: #5f8f6b;
+  --accent-blue: #3d5a73;
+  --accent-rose: #b4544a;
+  --radius-panel: 4px;
+  --font-heading: var(--font-ibm-plex-mono), 'IBM Plex Mono', monospace;
+  --font-body: var(--font-ibm-plex-sans), 'IBM Plex Sans', system-ui, sans-serif;
+  --font-mono: var(--font-ibm-plex-mono), 'IBM Plex Mono', monospace;
+  --font-logo: var(--font-mono);
+
+  --lang-bg: #121417;
+  --lang-bg-elevated: #1a1e23;
+  --lang-bg-panel: #1a1e23;
+  --lang-bg-head: #242a31;
+  --lang-bg-inverse: #5f8f6b;
+  --lang-ink: #e8e6e3;
+  --lang-ink-soft: #c2c0bb;
+  --lang-mute: #8a8883;
+  --lang-inverse: #121417;
+  --lang-accent: #5f8f6b;
+  --lang-accent-2: #c9793a;
+  --lang-accent-3: #3d5a73;
+  --lang-rule: rgba(200, 210, 220, 0.12);
+  --lang-rule-strong: rgba(200, 210, 220, 0.22);
+  --lang-radius: 4px;
+  --lang-shadow: none;
+  --lang-density-pad: 0.7rem;
+  --lang-tracking: 0.03em;
+  --lang-pattern: linear-gradient(rgba(95, 143, 107, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(61, 90, 115, 0.04) 1px, transparent 1px);
+  --lang-pattern-size: 20px 20px;
+  --lang-page-grad: linear-gradient(180deg, #161a1e 0%, #121417 100%);
+  --lang-title-transform: none;
+  --lang-title-weight: 700;
+  --lang-panel-border: 1px solid var(--lang-rule-strong);
+  --lang-inverse-head: #242a31;
+  --lang-inverse-ink: #e8e6e3;
+  --lang-status-ok: #5f8f6b;
+  --lang-warn: #c9793a;
+  --lang-danger: #b4544a;
+  --lang-grid-line: rgba(95, 143, 107, 0.1);
+}
+
+html[data-lang='assembly'] {
+  --bg-primary: #0a0a0a;
+  --bg-secondary: #121212;
+  --bg-tertiary: #1c1c1c;
+  --bg-glass: rgba(18, 18, 18, 0.96);
+  --bg-ink: #000000;
+  --bg-terminal: #000000;
+  --border-color: rgba(180, 180, 180, 0.14);
+  --border-accent: rgba(111, 158, 111, 0.5);
+  --border-strong: rgba(180, 180, 180, 0.28);
+  --text-primary: #c8c8c8;
+  --text-secondary: #a0a0a0;
+  --text-muted: #707070;
+  --text-inverse: #0a0a0a;
+  --accent-green: #6f9e6f;
+  --accent-olive: #557a55;
+  --accent-amber: #d4a017;
+  --accent-steel: #8a8a8a;
+  --accent-cyan: #6f9e6f;
+  --accent-blue: #6a7580;
+  --accent-rose: #b33a3a;
+  --radius-panel: 0px;
+  --font-heading: var(--font-share-tech), 'Share Tech Mono', monospace;
+  --font-body: var(--font-share-tech), 'Share Tech Mono', monospace;
+  --font-mono: var(--font-share-tech), 'Share Tech Mono', monospace;
+  --font-logo: var(--font-mono);
+
+  --lang-bg: #0a0a0a;
+  --lang-bg-elevated: #121212;
+  --lang-bg-panel: #121212;
+  --lang-bg-head: #1c1c1c;
+  --lang-bg-inverse: #d4a017;
+  --lang-ink: #c8c8c8;
+  --lang-ink-soft: #a0a0a0;
+  --lang-mute: #707070;
+  --lang-inverse: #0a0a0a;
+  --lang-accent: #6f9e6f;
+  --lang-accent-2: #d4a017;
+  --lang-accent-3: #8a8a8a;
+  --lang-rule: rgba(180, 180, 180, 0.14);
+  --lang-rule-strong: rgba(180, 180, 180, 0.28);
+  --lang-radius: 0px;
+  --lang-shadow: none;
+  --lang-density-pad: 0.55rem;
+  --lang-tracking: 0.06em;
+  --lang-pattern: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(111, 158, 111, 0.03) 2px,
+    rgba(111, 158, 111, 0.03) 3px
+  );
+  --lang-page-grad: #0a0a0a;
+  --lang-title-transform: uppercase;
+  --lang-title-weight: 400;
+  --lang-panel-border: 1px solid var(--lang-rule-strong);
+  --lang-inverse-head: #000000;
+  --lang-inverse-ink: #d4a017;
+  --lang-status-ok: #6f9e6f;
+  --lang-warn: #d4a017;
+  --lang-danger: #b33a3a;
+  --lang-grid-line: rgba(111, 158, 111, 0.12);
+}
+
+html[data-lang='pascal'] {
+  --bg-primary: #f6f1e4;
+  --bg-secondary: #efe7d4;
+  --bg-tertiary: #e4d8bf;
+  --bg-glass: rgba(246, 241, 228, 0.95);
+  --bg-ink: #1c2a44;
+  --bg-terminal: #1c2a44;
+  --border-color: rgba(28, 42, 68, 0.16);
+  --border-accent: rgba(28, 42, 68, 0.4);
+  --border-strong: rgba(28, 42, 68, 0.28);
+  --text-primary: #1c2a44;
+  --text-secondary: #3a465c;
+  --text-muted: #6b6470;
+  --text-inverse: #f6f1e4;
+  --accent-green: #1c2a44;
+  --accent-olive: #8b5a2b;
+  --accent-amber: #c46b3a;
+  --accent-steel: #5a6a82;
+  --accent-cyan: #3a5a7a;
+  --accent-blue: #1c2a44;
+  --accent-rose: #9a4a3a;
+  --radius-panel: 6px;
+  --font-heading: var(--font-libre), 'Libre Baskerville', Georgia, serif;
+  --font-body: var(--font-ibm-plex-sans), 'IBM Plex Sans', system-ui, sans-serif;
+  --font-mono: var(--font-ibm-plex-mono), 'IBM Plex Mono', monospace;
+  --font-logo: var(--font-heading);
+
+  --lang-bg: #f6f1e4;
+  --lang-bg-elevated: #fffaf0;
+  --lang-bg-panel: #fffaf0;
+  --lang-bg-head: #efe7d4;
+  --lang-bg-inverse: #1c2a44;
+  --lang-ink: #1c2a44;
+  --lang-ink-soft: #3a465c;
+  --lang-mute: #6b6470;
+  --lang-inverse: #f6f1e4;
+  --lang-accent: #1c2a44;
+  --lang-accent-2: #c46b3a;
+  --lang-accent-3: #8b5a2b;
+  --lang-rule: rgba(28, 42, 68, 0.16);
+  --lang-rule-strong: rgba(28, 42, 68, 0.28);
+  --lang-radius: 6px;
+  --lang-shadow: 0 2px 0 rgba(28, 42, 68, 0.06);
+  --lang-density-pad: 1.05rem;
+  --lang-tracking: 0.01em;
+  --lang-pattern: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 27px,
+    rgba(28, 42, 68, 0.04) 28px
+  );
+  --lang-page-grad: linear-gradient(180deg, #fffaf0 0%, #f6f1e4 60%, #efe7d4 100%);
+  --lang-title-transform: none;
+  --lang-title-weight: 700;
+  --lang-panel-border: 2px solid rgba(28, 42, 68, 0.22);
+  --lang-inverse-head: #1c2a44;
+  --lang-inverse-ink: #f6f1e4;
+  --lang-status-ok: #2f5d3a;
+  --lang-warn: #c46b3a;
+  --lang-danger: #9a4a3a;
+  --lang-grid-line: rgba(28, 42, 68, 0.08);
+}
+
+html[data-lang='ada'] {
+  --bg-primary: #0e1a28;
+  --bg-secondary: #152536;
+  --bg-tertiary: #1d3044;
+  --bg-glass: rgba(21, 37, 54, 0.95);
+  --bg-ink: #09121c;
+  --bg-terminal: #09121c;
+  --border-color: rgba(180, 205, 225, 0.14);
+  --border-accent: rgba(74, 127, 165, 0.5);
+  --border-strong: rgba(180, 205, 225, 0.28);
+  --text-primary: #e8eef4;
+  --text-secondary: #b7c6d4;
+  --text-muted: #8496a8;
+  --text-inverse: #0e1a28;
+  --accent-green: #4a7fa5;
+  --accent-olive: #3a6888;
+  --accent-amber: #c9a227;
+  --accent-steel: #7a93a8;
+  --accent-cyan: #5ea0b8;
+  --accent-blue: #4a7fa5;
+  --accent-rose: #c04545;
+  --radius-panel: 2px;
+  --font-heading: var(--font-barlow), 'Barlow', system-ui, sans-serif;
+  --font-body: var(--font-barlow), 'Barlow', system-ui, sans-serif;
+  --font-mono: var(--font-ibm-plex-mono), 'IBM Plex Mono', monospace;
+  --font-logo: var(--font-heading);
+
+  --lang-bg: #0e1a28;
+  --lang-bg-elevated: #152536;
+  --lang-bg-panel: #152536;
+  --lang-bg-head: #1d3044;
+  --lang-bg-inverse: #c9a227;
+  --lang-ink: #e8eef4;
+  --lang-ink-soft: #b7c6d4;
+  --lang-mute: #8496a8;
+  --lang-inverse: #0e1a28;
+  --lang-accent: #4a7fa5;
+  --lang-accent-2: #c9a227;
+  --lang-accent-3: #5ea0b8;
+  --lang-rule: rgba(180, 205, 225, 0.14);
+  --lang-rule-strong: rgba(180, 205, 225, 0.28);
+  --lang-radius: 2px;
+  --lang-shadow: none;
+  --lang-density-pad: 0.85rem;
+  --lang-tracking: 0.07em;
+  --lang-pattern: linear-gradient(rgba(74, 127, 165, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(74, 127, 165, 0.05) 1px, transparent 1px);
+  --lang-pattern-size: 32px 32px;
+  --lang-page-grad: radial-gradient(ellipse at 50% -10%, rgba(74, 127, 165, 0.18), transparent 45%),
+    #0e1a28;
+  --lang-title-transform: uppercase;
+  --lang-title-weight: 600;
+  --lang-panel-border: 1px solid var(--lang-rule-strong);
+  --lang-inverse-head: #1d3044;
+  --lang-inverse-ink: #e8eef4;
+  --lang-status-ok: #5ea0b8;
+  --lang-warn: #c9a227;
+  --lang-danger: #c04545;
+  --lang-grid-line: rgba(74, 127, 165, 0.12);
+}
+
+/* Density helpers */
+html[data-lang='haskell'] body {
+  letter-spacing: 0.01em;
+}
+
+html[data-lang='assembly'] body,
+html[data-lang='c'] body {
+  font-size: 15px;
+}
+
+html[data-lang='haskell'] body {
+  font-size: 16.5px;
+}
