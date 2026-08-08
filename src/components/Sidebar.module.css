@@ -1,0 +1,107 @@
+.navbar {
+  height: 100%;
+  width: 100%;
+  padding: var(--mantine-spacing-md);
+  padding-bottom: 0;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bg-secondary);
+  border-right: 1px solid var(--border-strong);
+  font-family: var(--font-mono);
+}
+
+.navbarCollapsed {
+  padding: var(--mantine-spacing-sm);
+  padding-bottom: 0;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding-bottom: var(--mantine-spacing-md);
+  margin-bottom: var(--mantine-spacing-md);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.headerCollapsed {
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.65rem;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: var(--text-primary);
+  min-width: 0;
+}
+
+.headerCollapsed .brand {
+  justify-content: center;
+}
+
+.toggle {
+  flex-shrink: 0;
+}
+
+.brandTitle {
+  font-weight: 700;
+  font-size: 1rem;
+  letter-spacing: 0.04em;
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+
+.brandAccent {
+  color: var(--accent-green);
+  font-weight: 700;
+}
+
+.brandSub {
+  display: block;
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-top: 2px;
+}
+
+.links {
+  flex: 1;
+  margin-left: calc(var(--mantine-spacing-md) * -1);
+  margin-right: calc(var(--mantine-spacing-md) * -1);
+}
+
+.linksInner {
+  padding-top: var(--mantine-spacing-xs);
+  padding-bottom: var(--mantine-spacing-xl);
+  padding-left: var(--mantine-spacing-md);
+  padding-right: var(--mantine-spacing-md);
+}
+
+.sectionLabel {
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--accent-amber);
+  margin-bottom: 12px;
+  padding-left: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.footer {
+  margin-left: calc(var(--mantine-spacing-md) * -1);
+  margin-right: calc(var(--mantine-spacing-md) * -1);
+  border-top: 1px solid var(--border-color);
+  padding: var(--mantine-spacing-md);
+  background: var(--bg-tertiary);
+}
