@@ -117,11 +117,11 @@ export function DocViewer({ doc, setTocItems }) {
       const parsedInner = marked.parseInline(quote.trim());
 
       return `<div class="alert-box ${alertClass}">
-        <div style="display: flex; align-items: center; gap: 6px; font-weight: 700; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; opacity: 0.9;">
+        <div class="alert-title">
           ${iconSvg}
           <span>${title}</span>
         </div>
-        <div>${parsedInner}</div>
+        <div class="alert-body">${parsedInner}</div>
       </div>`;
     };
 
