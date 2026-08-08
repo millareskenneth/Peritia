@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { SYSTEM_COPY } from '../../language-themes/catalog';
 import { useLanguageTheme } from '../../language-themes/LanguageThemeProvider';
 import classes from './landing.module.css';
 
@@ -14,7 +15,7 @@ export function LandingFooter() {
       <div className={classes.siteFooterInner}>
         <div>
           <div className={classes.footerBrand}>{t.footerBrand}</div>
-          <p className={classes.footerMute}>{language.personality}</p>
+          <p className={classes.footerMute}>{SYSTEM_COPY.description}</p>
         </div>
         <div>
           <div className={classes.footerColTitle}>{t.batch}</div>
