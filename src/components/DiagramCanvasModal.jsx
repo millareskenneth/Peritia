@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useRef, useEffect, useMemo } from 'react';
+import React, { useState, useRef, useEffect, useMemo, useCallback } from 'react';
 import { Maximize2, ZoomIn, ZoomOut, RotateCcw, X } from 'lucide-react';
 
 export function DiagramCanvasModal({ svgContent, title, onClose }) {
@@ -9,56 +9,101 @@ export function DiagramCanvasModal({ svgContent, title, onClose }) {
   const [isDragging, setIsDragging] = useState(false);
   const dragStartRef = useRef({ x: 0, y: 0 });
   const containerRef = useRef(null);
+  const pinchRef = useRef(null);
 
-  // Safely update ONLY the top-level <svg> tag without altering inner <rect>/<path> node styles
+  // Keep SVG styles intact; only clear constraining max-width so pan/zoom can work.
   const processedSvg = useMemo(() => {
     if (!svgContent) return '';
     return svgContent.replace(/<svg\b[^>]*>/i, (svgTag) => {
-      let cleanTag = svgTag.replace(/max-width:\s*[^;"]+;?/gi, '');
+      let cleanTag = svgTag
+        .replace(/max-width:\s*[^;"]+;?/gi, '')
+        .replace(/\smin-width:\s*[^;"]+;?/gi, '');
       if (cleanTag.includes('style="')) {
-        return cleanTag.replace(/style="([^"]*)"/i, (m, s) => `style="${s}; max-width: none !important; min-width: 1100px;"`);
-      } else {
-        return cleanTag.replace('<svg', '<svg style="max-width: none !important; min-width: 1100px;"');
+        return cleanTag.replace(
+          /style="([^"]*)"/i,
+          (m, s) => `style="${s}; max-width: none; height: auto;"`,
+        );
       }
+      return cleanTag.replace('<svg', '<svg style="max-width: none; height: auto;"');
     });
   }, [svgContent]);
 
-  // Close on Escape key
   useEffect(() => {
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
     const handleKeyDown = (e) => {
       if (e.key === 'Escape') onClose();
     };
     window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+    return () => {
+      document.body.style.overflow = prev;
+      window.removeEventListener('keydown', handleKeyDown);
+    };
   }, [onClose]);
 
-  // Handle Mouse Wheel Zooming up to 15x (1500%)
   const handleWheel = (e) => {
     e.preventDefault();
     const zoomFactor = e.deltaY < 0 ? 1.2 : 0.8;
     setZoom((prevZoom) => Math.min(Math.max(prevZoom * zoomFactor, 0.2), 15));
   };
 
-  // Mouse Drag Panning Handlers
-  const handleMouseDown = (e) => {
-    if (e.button !== 0 && e.button !== 1) return;
+  const beginDrag = useCallback((clientX, clientY) => {
     setIsDragging(true);
     dragStartRef.current = {
-      x: e.clientX - pan.x,
-      y: e.clientY - pan.y
+      x: clientX - pan.x,
+      y: clientY - pan.y,
     };
+  }, [pan.x, pan.y]);
+
+  const moveDrag = useCallback((clientX, clientY) => {
+    if (!isDragging) return;
+    setPan({
+      x: clientX - dragStartRef.current.x,
+      y: clientY - dragStartRef.current.y,
+    });
+  }, [isDragging]);
+
+  const endDrag = useCallback(() => {
+    setIsDragging(false);
+    pinchRef.current = null;
+  }, []);
+
+  const handleMouseDown = (e) => {
+    if (e.button !== 0 && e.button !== 1) return;
+    beginDrag(e.clientX, e.clientY);
   };
 
   const handleMouseMove = (e) => {
-    if (!isDragging) return;
-    setPan({
-      x: e.clientX - dragStartRef.current.x,
-      y: e.clientY - dragStartRef.current.y
-    });
+    moveDrag(e.clientX, e.clientY);
   };
 
-  const handleMouseUp = () => {
-    setIsDragging(false);
+  const handleTouchStart = (e) => {
+    if (e.touches.length === 1) {
+      const t = e.touches[0];
+      beginDrag(t.clientX, t.clientY);
+      return;
+    }
+    if (e.touches.length === 2) {
+      const [a, b] = e.touches;
+      const dist = Math.hypot(a.clientX - b.clientX, a.clientY - b.clientY);
+      pinchRef.current = { dist, zoom };
+      setIsDragging(false);
+    }
+  };
+
+  const handleTouchMove = (e) => {
+    if (e.touches.length === 2 && pinchRef.current) {
+      e.preventDefault();
+      const [a, b] = e.touches;
+      const dist = Math.hypot(a.clientX - b.clientX, a.clientY - b.clientY);
+      const next = pinchRef.current.zoom * (dist / pinchRef.current.dist);
+      setZoom(Math.min(Math.max(next, 0.2), 15));
+      return;
+    }
+    if (e.touches.length === 1) {
+      const t = e.touches[0];
+      moveDrag(t.clientX, t.clientY);
+    }
   };
 
   const resetView = () => {
@@ -67,67 +112,80 @@ export function DiagramCanvasModal({ svgContent, title, onClose }) {
   };
 
   return (
-    <div className="diagram-modal-backdrop" onClick={onClose}>
-      {/* Floating Canvas Window */}
-      <div className="diagram-modal-window" onClick={(e) => e.stopPropagation()}>
-        {/* Header Control Bar */}
+    <div className="diagram-modal-backdrop" onClick={onClose} role="presentation">
+      <div
+        className="diagram-modal-window"
+        role="dialog"
+        aria-modal="true"
+        aria-label={title || 'Diagram Viewer'}
+        onClick={(e) => e.stopPropagation()}
+      >
         <div className="diagram-modal-header">
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontWeight: 700, fontSize: '0.98rem', color: '#f8fafc' }}>
-            <Maximize2 size={18} style={{ color: '#16db65', flexShrink: 0 }} />
-            <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: '480px' }}>
-              {title || 'Diagram Viewer'}
-            </span>
-            <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontWeight: 400, flexShrink: 0 }}>
-              (Click & Drag to Pan • Scroll to Zoom)
-            </span>
+          <div className="diagram-modal-title">
+            <Maximize2 size={18} style={{ color: 'var(--accent-green)', flexShrink: 0 }} />
+            <span className="diagram-modal-title-text">{title || 'Diagram Viewer'}</span>
+            <span className="diagram-modal-hint">Drag to pan · Scroll / pinch to zoom</span>
           </div>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexShrink: 0 }}>
+          <button
+            type="button"
+            className="modal-close-btn"
+            onClick={onClose}
+            title="Close Canvas (Esc)"
+            aria-label="Close diagram"
+          >
+            <X size={18} />
+          </button>
+
+          <div className="diagram-modal-actions">
             <div className="zoom-controls">
-              <button onClick={() => setZoom(z => Math.max(z - 0.4, 0.2))} title="Zoom Out (-)">
+              <button
+                type="button"
+                onClick={() => setZoom((z) => Math.max(z - 0.4, 0.2))}
+                title="Zoom Out"
+                aria-label="Zoom out"
+              >
                 <ZoomOut size={14} />
               </button>
-              <span style={{ fontSize: '0.82rem', fontFamily: 'var(--font-mono)', padding: '0 8px', color: '#16db65', fontWeight: 600 }}>
-                {Math.round(zoom * 100)}%
-              </span>
-              <button onClick={() => setZoom(z => Math.min(z + 0.4, 15))} title="Zoom In (+)">
+              <span className="zoom-level">{Math.round(zoom * 100)}%</span>
+              <button
+                type="button"
+                onClick={() => setZoom((z) => Math.min(z + 0.4, 15))}
+                title="Zoom In"
+                aria-label="Zoom in"
+              >
                 <ZoomIn size={14} />
               </button>
-              <button onClick={resetView} title="Reset View (100%)">
-                <RotateCcw size={13} style={{ marginRight: '4px' }} /> Reset
+              <button type="button" onClick={resetView} title="Reset View (100%)" aria-label="Reset view">
+                <RotateCcw size={13} style={{ marginRight: '4px' }} />
+                <span className="zoom-reset-label">Reset</span>
               </button>
             </div>
-
-            <button className="modal-close-btn" onClick={onClose} title="Close Canvas (Esc)">
-              <X size={18} />
-            </button>
           </div>
         </div>
 
-        {/* Interactive Canvas Body */}
         <div
           ref={containerRef}
           className="diagram-modal-body"
           style={{
             cursor: isDragging ? 'grabbing' : 'grab',
             userSelect: 'none',
-            overflow: 'hidden',
-            position: 'relative'
           }}
           onWheel={handleWheel}
           onMouseDown={handleMouseDown}
           onMouseMove={handleMouseMove}
-          onMouseUp={handleMouseUp}
-          onMouseLeave={handleMouseUp}
+          onMouseUp={endDrag}
+          onMouseLeave={endDrag}
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={endDrag}
+          onTouchCancel={endDrag}
         >
-          {/* Scalable & Pannable Stage */}
           <div
+            className="diagram-modal-stage"
             style={{
               transform: `translate(${pan.x}px, ${pan.y}px) scale(${zoom})`,
-              transformOrigin: 'center center',
               transition: isDragging ? 'none' : 'transform 0.05s ease-out',
-              display: 'inline-block',
-              pointerEvents: 'none'
             }}
             dangerouslySetInnerHTML={{ __html: processedSvg }}
           />
