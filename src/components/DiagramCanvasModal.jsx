@@ -2,14 +2,17 @@
 
 import React, { useState, useRef, useEffect, useMemo, useCallback } from 'react';
 import { Maximize2, ZoomIn, ZoomOut, RotateCcw, X } from 'lucide-react';
+import { useLanguageTheme } from '../language-themes/LanguageThemeProvider';
+import { applyMermaidPalette } from '../language-themes/mermaidTheme';
 
 export function DiagramCanvasModal({ svgContent, title, onClose }) {
   const [zoom, setZoom] = useState(1);
   const [pan, setPan] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
   const dragStartRef = useRef({ x: 0, y: 0 });
-  const containerRef = useRef(null);
+  const stageRef = useRef(null);
   const pinchRef = useRef(null);
+  const { language } = useLanguageTheme();
 
   // Keep SVG styles intact; only clear constraining max-width so pan/zoom can work.
   const processedSvg = useMemo(() => {
@@ -27,6 +30,12 @@ export function DiagramCanvasModal({ svgContent, title, onClose }) {
       return cleanTag.replace('<svg', '<svg style="max-width: none; height: auto;"');
     });
   }, [svgContent]);
+
+  useEffect(() => {
+    if (stageRef.current) {
+      applyMermaidPalette(stageRef.current, language.scheme);
+    }
+  }, [processedSvg, language.scheme]);
 
   useEffect(() => {
     const prev = document.body.style.overflow;
@@ -165,7 +174,6 @@ export function DiagramCanvasModal({ svgContent, title, onClose }) {
         </div>
 
         <div
-          ref={containerRef}
           className="diagram-modal-body"
           style={{
             cursor: isDragging ? 'grabbing' : 'grab',
@@ -182,6 +190,7 @@ export function DiagramCanvasModal({ svgContent, title, onClose }) {
           onTouchCancel={endDrag}
         >
           <div
+            ref={stageRef}
             className="diagram-modal-stage"
             style={{
               transform: `translate(${pan.x}px, ${pan.y}px) scale(${zoom})`,
