@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, FileText, Folder, Home } from 'lucide-react';
 import { buildDocsTree, docFileName, findFolderForDoc } from '../../lib/docsTree';
@@ -26,6 +26,23 @@ export function DocsExplorer({ docs = [], initialDocId }) {
   const { language } = useLanguageTheme();
   const t = language.terms;
 
+  // One scroll surface: lock the document so only the explorer pane scrolls.
+  useEffect(() => {
+    const root = document.documentElement;
+    root.classList.add('docs-viewport-lock');
+    return () => {
+      root.classList.remove('docs-viewport-lock');
+    };
+  }, []);
+
+  // Reset the active pane when navigating between root / folder / file.
+  useEffect(() => {
+    const panes = document.querySelectorAll(`.${classes.iconStage}, .${classes.readerSolo}`);
+    panes.forEach((el) => {
+      el.scrollTop = 0;
+    });
+  }, [view, folderId, docId]);
+
   const folder = tree.find((f) => f.id === folderId) || null;
   const activeDoc = docs.find((d) => d.id === docId) || null;
 
@@ -38,13 +55,11 @@ export function DocsExplorer({ docs = [], initialDocId }) {
     setFolderId(id);
     setDocId(null);
     setView('folder');
-    window.scrollTo(0, 0);
   };
 
   const openFile = (id) => {
     setDocId(id);
     setView('file');
-    window.scrollTo(0, 0);
   };
 
   const crumbs = (() => {
