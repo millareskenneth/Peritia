@@ -215,9 +215,24 @@ function main() {
   }
 
   const entries = Array.isArray(feed.entries) ? feed.entries : [];
-  // De-dupe same head sha already posted
+
+  /** @type {Set<string>} */
+  const postedShas = new Set();
+  for (const e of entries) {
+    if (e?.sha) postedShas.add(String(e.sha).slice(0, 7).toLowerCase());
+    for (const c of e?.commits || []) {
+      if (c?.sha) postedShas.add(String(c.sha).slice(0, 7).toLowerCase());
+    }
+  }
+
+  const newShas = visibleCommits.map((c) => String(c.sha).slice(0, 7).toLowerCase()).filter(Boolean);
+  // De-dupe: same head on same branch, or every commit already shown (merge/cherry-pick)
   if (entries.some((e) => e.sha === short && e.branch === branch)) {
     console.log(`Feed already has ${short} on ${branch} — skipping.`);
+    process.exit(0);
+  }
+  if (newShas.length && newShas.every((s) => postedShas.has(s))) {
+    console.log(`All commits already in feed (${newShas.join(', ')}) — skipping duplicate push.`);
     process.exit(0);
   }
 
