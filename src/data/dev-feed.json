@@ -29,51 +29,15 @@
       "createdAt": "2026-08-09T08:17:57.057Z",
       "repo": "millareskenneth/Peritia",
       "branch": "ui/update",
-      "title": "Refactors landed on ui/update (1 commit)",
-      "summary": "1 refactor",
+      "title": "Update landing page components for improved messaging and layout",
+      "summary": "Update landing page components for improved messaging and layout.",
       "bullets": [
         "update landing page components for improved messaging and layout"
       ],
       "commits": [
         {
-          "sha": "75382f0",
-          "message": "Merge pull request #2 from millareskenneth/ui/update",
-          "url": "https://github.com/millareskenneth/Peritia/commit/75382f045a04fb40e020dc9baf39c94aeeaa6893",
-          "author": "millareskenneth"
-        },
-        {
-          "sha": "f3bec73",
-          "message": "Merge pull request #3 from millareskenneth/ui/update",
-          "url": "https://github.com/millareskenneth/Peritia/commit/f3bec73369f0112f1cb5990e3c5b86c05c73a13a",
-          "author": "millareskenneth"
-        },
-        {
-          "sha": "15b3f19",
-          "message": "Merge pull request #4 from millareskenneth/ui/update",
-          "url": "https://github.com/millareskenneth/Peritia/commit/15b3f1970b98d331fbaf86736094ff83f5981b72",
-          "author": "millareskenneth"
-        },
-        {
-          "sha": "15ce09a",
-          "message": "Merge pull request #5 from millareskenneth/ui/update",
-          "url": "https://github.com/millareskenneth/Peritia/commit/15ce09a4e1f60fe5aa5eb05d672849386171c6c0",
-          "author": "millareskenneth"
-        },
-        {
-          "sha": "77ab80d",
-          "message": "Merge pull request #6 from millareskenneth/ui/update",
-          "url": "https://github.com/millareskenneth/Peritia/commit/77ab80dbcfb7a7c7c620fd51aa4ca4fff84f73d1",
-          "author": "millareskenneth"
-        },
-        {
-          "sha": "90eed6b",
-          "message": "Merge pull request #7 from millareskenneth/ui/update",
-          "url": "https://github.com/millareskenneth/Peritia/commit/90eed6bef4e69bea6822b382e271e2603878cff5",
-          "author": "millareskenneth"
-        },
-        {
           "sha": "ffeb0c7",
-          "message": "refactor: update landing page components for improved messaging and layout",
+          "message": "update landing page components for improved messaging and layout",
           "url": "https://github.com/millareskenneth/Peritia/commit/ffeb0c74124ab6fcdd46ce0cb4cc8c4a1f29690d",
           "author": "millareskenneth"
         }
@@ -109,7 +73,7 @@
       "bullets": [
         "Landing strip shows the latest posts",
         "Full history lives on /updates",
-        "Source repo stays private — visitors read summaries here"
+        "Source repo stays private \u2014 visitors read summaries here"
       ],
       "commits": [],
       "author": "system",

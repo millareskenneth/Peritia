@@ -61,6 +61,9 @@ export function DevFeedList({
     const syncStamp = formatFeedTime(updatedAt || latest.createdAt);
     const branchSet = [...new Set(entries.map((e) => e.branch).filter(Boolean))];
     const c = LANDING_COPY;
+    const visibleCommits = (latest.commits || []).filter(
+      (commit) => commit?.message && !/^merge\b/i.test(commit.message),
+    );
 
     return (
       <div className={classes.featuredWrap}>
@@ -107,9 +110,9 @@ export function DevFeedList({
             </ul>
           ) : null}
 
-          {latest.commits?.length ? (
+          {visibleCommits.length ? (
             <ul className={classes.featuredCommits}>
-              {latest.commits.slice(0, 4).map((commit) => (
+              {visibleCommits.slice(0, 4).map((commit) => (
                 <li key={commit.sha + commit.message}>
                   <code>{commit.sha}</code>
                   <span>{commit.message}</span>

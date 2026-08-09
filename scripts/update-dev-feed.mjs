@@ -52,8 +52,20 @@ function scoreType(subject) {
   return m ? m[1].toLowerCase() : null;
 }
 
+function cleanSubject(subject = '') {
+  return String(subject)
+    .replace(/^(feat|fix|ui|docs|style|refactor|perf|test|build|ci|chore|revert)(\(.+\))?!?:\s*/i, '')
+    .trim();
+}
+
 function buildTitle(branch, subjects, typeHits) {
   const n = subjects.length;
+
+  if (n === 1) {
+    const cleaned = cleanSubject(subjects[0]);
+    return cleaned.slice(0, 96) || `Update on ${branch}`;
+  }
+
   const topType = Object.entries(typeHits).sort((a, b) => b[1] - a[1])[0];
   const typeLabel = {
     feat: 'Features',
@@ -72,41 +84,33 @@ function buildTitle(branch, subjects, typeHits) {
 
   if (topType && topType[1] > 0 && topType[1] >= Math.ceil(n / 2)) {
     const label = typeLabel[topType[0]] || topType[0];
-    return `${label} landed on ${branch} (${n} commit${n === 1 ? '' : 's'})`;
-  }
-
-  if (n === 1) {
-    const cleaned = subjects[0].replace(/^(feat|fix|ui|docs|chore|refactor|perf)(\(.+\))?!?:\s*/i, '');
-    return cleaned.slice(0, 96) || `Update on ${branch}`;
+    const lead = cleanSubject(subjects[0]);
+    if (lead) return `${lead.slice(0, 72)}${n > 1 ? ` (+${n - 1} more)` : ''}`;
+    return `${label} landed on ${branch} (${n} commits)`;
   }
 
   return `${n} changes pushed to ${branch}`;
 }
 
-function buildSummary(subjects, typeHits) {
-  const parts = [];
-  const ordered = Object.entries(typeHits)
-    .filter(([, c]) => c > 0)
-    .sort((a, b) => b[1] - a[1])
-    .slice(0, 3)
-    .map(([k, c]) => `${c} ${k}`);
+function buildSummary(subjects) {
+  const cleaned = subjects.map(cleanSubject).filter(Boolean);
+  if (!cleaned.length) return 'Repository update';
 
-  if (ordered.length) {
-    parts.push(ordered.join(', '));
-  } else if (subjects[0]) {
-    parts.push(subjects[0].replace(/^(feat|fix|ui|docs|chore|refactor|perf)(\(.+\))?!?:\s*/i, ''));
+  if (cleaned.length === 1) {
+    return cleaned[0].slice(0, 180);
   }
 
-  return parts.join(' · ').slice(0, 180) || 'Repository update';
+  // Prefer readable subjects over "1 refactor, 2 feat" skeletons.
+  return cleaned.slice(0, 3).join(' · ').slice(0, 180);
 }
 
 function normalizeBullets(subjects) {
   const seen = new Set();
   const out = [];
   for (const s of subjects) {
-    const cleaned = s.replace(/^(feat|fix|ui|docs|chore|refactor|perf|style|test|build|ci)(\(.+\))?!?:\s*/i, '');
+    const cleaned = cleanSubject(s);
     const key = cleaned.toLowerCase();
-    if (seen.has(key)) continue;
+    if (!cleaned || seen.has(key)) continue;
     seen.add(key);
     out.push(cleaned.slice(0, 140));
     if (out.length >= MAX_BULLETS) break;
@@ -177,20 +181,25 @@ function main() {
       ? `https://github.com/${repo}/compare/${beforeSha.slice(0, 7)}...${short}`
       : `https://github.com/${repo}/commit/${headSha}`;
 
+  const visibleCommits = commits
+    .filter((c) => !isNoise(subjectLine(c.message)))
+    .slice(0, 12)
+    .map((c) => ({
+      sha: c.sha.slice(0, 7),
+      message: cleanSubject(subjectLine(c.message)) || subjectLine(c.message),
+      url: c.url,
+      author: c.author,
+    }));
+
   const entry = {
     id: `push-${short}-${Date.now().toString(36)}`,
     createdAt: new Date().toISOString(),
     repo,
     branch,
     title: buildTitle(branch, subjects, typeHits),
-    summary: buildSummary(subjects, typeHits),
+    summary: buildSummary(subjects),
     bullets,
-    commits: commits.slice(0, 12).map((c) => ({
-      sha: c.sha.slice(0, 7),
-      message: subjectLine(c.message),
-      url: c.url,
-      author: c.author,
-    })),
+    commits: visibleCommits,
     author: actor,
     url: compareUrl,
     sha: short,
