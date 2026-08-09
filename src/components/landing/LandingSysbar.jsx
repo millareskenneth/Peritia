@@ -25,7 +25,6 @@ const PLACEHOLDER = { date: '----.--.--', time: '--:--:--' };
 
 export function LandingSysbar() {
   const { language } = useLanguageTheme();
-  const t = language.terms;
   const [stamp, setStamp] = useState(PLACEHOLDER);
 
   useEffect(() => {
@@ -39,29 +38,24 @@ export function LandingSysbar() {
     <div className={classes.sysbar} role="status" aria-live="polite">
       <div className={classes.sysbarLeft}>
         <span>
-          <span className={classes.sysKey}>{t.sysId}</span>{' '}
-          <span className={classes.sysVal}>PRT-OS-001</span>
+          <span className={classes.sysKey}>Project</span>{' '}
+          <span className={classes.sysVal}>PeritiaOS</span>
         </span>
         <span>
-          <span className={classes.sysKey}>{t.env}</span>{' '}
-          <span className={classes.sysVal}>PROD</span>
-        </span>
-        <span>
-          <span className={classes.sysKey}>{t.txn}</span>{' '}
-          <span className={classes.sysVal}>00038421</span>
+          <span className={classes.sysKey}>Theme</span>{' '}
+          <span className={classes.sysVal}>{language.name}</span>
         </span>
       </div>
-      <div className={classes.sysbarCenter}>PERITIAOS · {t.region}</div>
+      <div className={classes.sysbarCenter}>Developer Operating System</div>
       <div className={classes.sysbarRight}>
         <span>
-          <span className={classes.sysKey}>DATE</span>{' '}
+          <span className={classes.sysKey}>Date</span>{' '}
           <span className={classes.sysVal}>{stamp.date}</span>
         </span>
         <span>
-          <span className={classes.sysKey}>TIME</span>{' '}
+          <span className={classes.sysKey}>Time</span>{' '}
           <span className={classes.sysVal}>{stamp.time}</span>
         </span>
-        <span className={classes.statusReady}>{t.ready}</span>
       </div>
     </div>
   );

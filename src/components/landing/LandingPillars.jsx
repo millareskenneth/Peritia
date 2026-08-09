@@ -1,56 +1,51 @@
 'use client';
 
-import { useLanguageTheme } from '../../language-themes/LanguageThemeProvider';
+import { LANDING_COPY } from '../../data/landingCopy';
 import classes from './landing.module.css';
 
-const PILLARS = [
-  {
-    code: 'PLC-A',
-    name: 'PARITY',
-    copy: 'Same machine shape from laptop to CI to production.',
-  },
-  {
-    code: 'PLC-B',
-    name: 'PERFORMANCE',
-    copy: 'FS, cgroups, and resolver tuned for compile / container I/O.',
-  },
-  {
-    code: 'PLC-C',
-    name: 'CLARITY',
-    copy: 'Specs and tooling share one map under audit.',
-  },
-];
-
 export function LandingPillars() {
-  const { language } = useLanguageTheme();
-  const t = language.terms;
+  const c = LANDING_COPY;
 
   return (
-    <section id="pillars" className={classes.panel}>
+    <section id="pillars" className={`${classes.panel} ${classes.topFill}`}>
       <div className={classes.panelHead}>
-        <span>{t.pillarsKicker.toUpperCase()}</span>
-        <span className={classes.panelHeadId}>{t.batch}</span>
+        <span>{c.pillarsKicker}</span>
+        <span className={classes.panelHeadId}>3 promises</span>
       </div>
-      <div className={classes.panelBody}>
+      <div className={`${classes.panelBody} ${classes.topFillBody}`}>
         <div className={classes.sectionIntro}>
-          <p className={classes.sectionKicker}>{t.pillarsKicker}</p>
-          <h2 className={classes.sectionTitle}>{t.pillarsTitle}</h2>
-          <p className={classes.sectionLead}>Non-negotiables in the voice of {language.name}.</p>
+          <p className={classes.sectionKicker}>{c.pillarsKicker}</p>
+          <h2 className={classes.sectionTitle}>{c.pillarsTitle}</h2>
+          <p className={classes.sectionLead}>{c.pillarsLead}</p>
         </div>
 
         <div className={classes.pillarGrid}>
-          {PILLARS.map((pillar) => (
-            <div key={pillar.code} className={classes.pillarCell}>
-              <div className={classes.pillarCode}>
-                {pillar.code} · {t.complete}
-              </div>
+          {c.pillars.map((pillar, i) => (
+            <div key={pillar.name} className={classes.pillarCell}>
+              <div className={classes.pillarCode}>0{i + 1}</div>
               <h3 className={classes.pillarName}>{pillar.name}</h3>
               <p className={classes.pillarCopy}>{pillar.copy}</p>
-              <div className={classes.pillarMeta}>
-                {t.status} {t.complete}
-              </div>
+              {pillar.points?.length ? (
+                <ul className={classes.pillarPoints}>
+                  {pillar.points.map((point) => (
+                    <li key={point}>{point}</li>
+                  ))}
+                </ul>
+              ) : null}
             </div>
           ))}
+        </div>
+
+        <div className={classes.scopeRail}>
+          <div className={classes.scopeHead}>{c.scopeTitle}</div>
+          <ul className={classes.scopeGrid}>
+            {c.scope.map((item) => (
+              <li key={item.label} className={classes.scopeItem}>
+                <span className={classes.scopeLabel}>{item.label}</span>
+                <span className={classes.scopeDetail}>{item.detail}</span>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     </section>
