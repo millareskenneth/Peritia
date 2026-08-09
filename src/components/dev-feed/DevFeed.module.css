@@ -202,6 +202,7 @@
   line-height: 1.35;
   color: var(--lang-mute, var(--text-muted));
   max-width: 46rem;
+  overflow-wrap: anywhere;
 }
 
 .featuredBullets {
@@ -245,9 +246,10 @@
 }
 
 .featuredCommits span {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  white-space: normal;
+  line-height: 1.35;
 }
 
 .queueBlock {
@@ -596,9 +598,10 @@
 }
 
 .commits span {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  white-space: normal;
+  line-height: 1.35;
 }
 
 .cardFoot {
