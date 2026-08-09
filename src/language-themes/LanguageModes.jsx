@@ -31,7 +31,7 @@ export function LanguageModes() {
   useEffect(() => {
     if (open) {
       setPreviewId(langId);
-      // On phones the dock was eating the whole sheet — start collapsed.
+      // On phones keep the preview dock collapsed so the sticky APPLY bar stays in view.
       setPreviewOpen(!compact);
     }
   }, [open, langId, compact]);
@@ -51,6 +51,12 @@ export function LanguageModes() {
   }, [open]);
 
   const preview = LANGUAGE_THEMES[previewId] || language;
+  const isCurrent = preview.id === langId;
+
+  const applyPreview = () => {
+    setLangId(preview.id);
+    setOpen(false);
+  };
 
   return (
     <>
@@ -87,7 +93,9 @@ export function LanguageModes() {
                   LANGUAGE MODES
                 </h2>
                 <p className={classes.sheetLead}>
-                  Switch the visual identity of PeritiaOS. Function stays put — personality changes.
+                  {compact
+                    ? 'Tap a mode, then hit APPLY below — no scrolling needed.'
+                    : 'Switch the visual identity of PeritiaOS. Function stays put — personality changes.'}
                 </p>
               </div>
               <button type="button" className={classes.closeBtn} onClick={() => setOpen(false)}>
@@ -100,12 +108,13 @@ export function LanguageModes() {
                 {LANGUAGE_ORDER.map((id) => {
                   const item = LANGUAGE_THEMES[id];
                   const active = id === langId;
+                  const selected = previewId === id;
                   return (
                     <button
                       key={id}
                       type="button"
                       className={`${classes.card} ${active ? classes.cardActive : ''} ${
-                        previewId === id ? classes.cardPreviewing : ''
+                        selected ? classes.cardPreviewing : ''
                       }`}
                       onMouseEnter={() => {
                         if (!compact) setPreviewId(id);
@@ -114,7 +123,8 @@ export function LanguageModes() {
                       onClick={() => {
                         setPreviewId(id);
                         if (compact) {
-                          setPreviewOpen(true);
+                          // Select for sticky APPLY — do not bury the button under a tall preview.
+                          setPreviewOpen(false);
                           return;
                         }
                         setLangId(id);
@@ -144,7 +154,9 @@ export function LanguageModes() {
                               ? 'APPLYING…'
                               : 'ACTIVE'
                             : compact
-                              ? 'PREVIEW ›'
+                              ? selected
+                                ? 'SELECTED'
+                                : 'TAP TO SELECT'
                               : 'SELECT ›'}
                         </span>
                       </div>
@@ -172,47 +184,62 @@ export function LanguageModes() {
               </button>
 
               {previewOpen ? (
-                <>
-                  <div className={classes.previewPane}>
-                    <div className={classes.previewBody}>
-                      <div className={classes.previewBlock}>
-                        <div className={classes.previewTitle}>{preview.terms.programId}</div>
-                        <div className={classes.previewLine}>{preview.terms.region}</div>
-                        <div className={classes.previewLine}>
-                          {preview.terms.status}: {preview.terms.ready}
-                        </div>
-                        <div className={classes.previewLine}>{preview.personality}</div>
+                <div className={classes.previewPane}>
+                  <div className={classes.previewBody}>
+                    <div className={classes.previewBlock}>
+                      <div className={classes.previewTitle}>{preview.terms.programId}</div>
+                      <div className={classes.previewLine}>{preview.terms.region}</div>
+                      <div className={classes.previewLine}>
+                        {preview.terms.status}: {preview.terms.ready}
                       </div>
-                      <div className={classes.previewBlock}>
-                        <div className={classes.previewTitle}>{preview.terms.account}</div>
-                        <div className={classes.previewLine}>
-                          {preview.terms.sysId} · {preview.preview.motif}
-                        </div>
-                        <div className={classes.previewLine}>
-                          {preview.terms.command} {preview.terms.openDocs}
-                        </div>
-                        <div className={classes.previewLine}>{preview.terms.eoj}</div>
+                      <div className={classes.previewLine}>{preview.personality}</div>
+                    </div>
+                    <div className={classes.previewBlock}>
+                      <div className={classes.previewTitle}>{preview.terms.account}</div>
+                      <div className={classes.previewLine}>
+                        {preview.terms.sysId} · {preview.preview.motif}
                       </div>
+                      <div className={classes.previewLine}>
+                        {preview.terms.command} {preview.terms.openDocs}
+                      </div>
+                      <div className={classes.previewLine}>{preview.terms.eoj}</div>
                     </div>
                   </div>
-                  <div className={classes.previewActions}>
-                    <button
-                      type="button"
-                      className={classes.applyBtn}
-                      onClick={() => {
-                        setLangId(preview.id);
-                        setOpen(false);
-                      }}
-                    >
-                      {preview.id === langId
-                        ? isPending
-                          ? 'APPLYING…'
-                          : 'KEEP ACTIVE'
-                        : `APPLY ${preview.name}`}
-                    </button>
-                  </div>
-                </>
+                </div>
               ) : null}
+            </div>
+
+            {/* Always pinned — never buried inside a scroll region */}
+            <div
+              className={classes.applyBar}
+              data-preview={preview.id}
+              style={PREVIEW_TOKENS[preview.id]}
+            >
+              <div className={classes.applyMeta}>
+                <span className={classes.applyMotif} aria-hidden>
+                  {preview.preview.motif}
+                </span>
+                <div className={classes.applyCopy}>
+                  <span className={classes.applyLabel}>
+                    {isCurrent ? 'CURRENT MODE' : 'READY TO APPLY'}
+                  </span>
+                  <span className={classes.applyName}>
+                    {preview.name} · {preview.tagline}
+                  </span>
+                </div>
+              </div>
+              <button
+                type="button"
+                className={classes.applyBtn}
+                onClick={applyPreview}
+                disabled={isPending}
+              >
+                {isPending
+                  ? 'APPLYING…'
+                  : isCurrent
+                    ? 'KEEP ACTIVE'
+                    : `APPLY ${preview.name}`}
+              </button>
             </div>
           </div>
         </div>
