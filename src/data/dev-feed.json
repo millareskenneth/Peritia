@@ -1,7 +1,29 @@
 {
   "repo": "millareskenneth/Peritia",
-  "updatedAt": "2026-08-09T08:50:49.588Z",
+  "updatedAt": "2026-08-09T08:59:14.753Z",
   "entries": [
+    {
+      "id": "push-40555af-mslkmnr5",
+      "createdAt": "2026-08-09T08:59:14.753Z",
+      "repo": "millareskenneth/Peritia",
+      "branch": "ui/update",
+      "title": "improve commit message handling and display in dev feed",
+      "summary": "improve commit message handling and display in dev feed",
+      "bullets": [
+        "improve commit message handling and display in dev feed"
+      ],
+      "commits": [
+        {
+          "sha": "40555af",
+          "message": "improve commit message handling and display in dev feed",
+          "url": "https://github.com/millareskenneth/Peritia/commit/40555afc6259e599bd77c98691d148db1bbf66d5",
+          "author": "millareskenneth"
+        }
+      ],
+      "author": "millareskenneth",
+      "url": "https://github.com/millareskenneth/Peritia/compare/112508f...40555af",
+      "sha": "40555af"
+    },
     {
       "id": "push-e48995a-mslkbtys",
       "createdAt": "2026-08-09T08:50:49.588Z",
@@ -73,7 +95,7 @@
       "bullets": [
         "Landing strip shows the latest posts",
         "Full history lives on /updates",
-        "Source repo stays private \u2014 visitors read summaries here"
+        "Source repo stays private — visitors read summaries here"
       ],
       "commits": [],
       "author": "system",
