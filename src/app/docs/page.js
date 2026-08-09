@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { AppShell, Box } from '@mantine/core';
 import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 import { docsData } from '../../data/docsData';
@@ -18,6 +18,8 @@ export default function DocsPortalPage() {
   const [tocItems, setTocItems] = useState([]);
   const [mobileNavOpened, { toggle: toggleMobileNav, close: closeMobileNav }] = useDisclosure(false);
   const [desktopCollapsed, { toggle: toggleDesktopCollapsed }] = useDisclosure(false);
+  const [shellHeaderHeight, setShellHeaderHeight] = useState(HEADER_HEIGHT);
+  const headerMeasureRef = useRef(null);
 
   const isMobile = useMediaQuery('(max-width: 62em)', false, { getInitialValueInEffect: true });
 
@@ -44,6 +46,30 @@ export default function DocsPortalPage() {
     [activeDocId, handleSelectDoc],
   );
 
+  // AppShell needs a numeric header height for --app-shell-header-offset.
+  // `height: auto` makes padding-top calc() invalid, so the sticky header
+  // covers the page H1 (only the last wrapped line stays visible).
+  useLayoutEffect(() => {
+    const node = headerMeasureRef.current;
+    if (!node) return undefined;
+
+    const sync = () => {
+      const next = Math.ceil(node.getBoundingClientRect().height);
+      if (next > 0) {
+        setShellHeaderHeight((prev) => (prev === next ? prev : next));
+      }
+    };
+
+    sync();
+    const ro = new ResizeObserver(sync);
+    ro.observe(node);
+    window.addEventListener('resize', sync);
+    return () => {
+      ro.disconnect();
+      window.removeEventListener('resize', sync);
+    };
+  }, [activeDoc?.title, isMobile]);
+
   useEffect(() => {
     const handleKeyDown = (e) => {
       if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'b') {
@@ -63,7 +89,7 @@ export default function DocsPortalPage() {
 
   return (
     <Box
-      className="app-layout"
+      className="app-layout app-layout--docs"
       style={{
         background: 'var(--bg-primary)',
         minHeight: '100vh',
@@ -71,9 +97,8 @@ export default function DocsPortalPage() {
     >
       <AppShell
         layout="alt"
-        header={{ height: { base: 'auto', md: HEADER_HEIGHT } }}
+        header={{ height: shellHeaderHeight }}
         navbar={{
-          // Cap mobile drawer so a closed/translated navbar cannot stretch the page sideways.
           width: { base: 300, md: navbarWidth },
           breakpoint: 'md',
           collapsed: { mobile: !mobileNavOpened, desktop: false },
@@ -81,23 +106,27 @@ export default function DocsPortalPage() {
         padding={0}
         styles={{
           root: {
-            overflowX: 'clip',
+            minHeight: '100vh',
             ...(isMobile
               ? {
+                  overflowX: 'clip',
                   '--app-shell-navbar-offset': '0px',
                   '--app-shell-aside-offset': '0px',
                 }
-              : null),
+              : {
+                  overflowX: 'hidden',
+                }),
           },
           main: {
             background: 'transparent',
             minHeight: '100vh',
-            overflowX: 'clip',
-            width: '100%',
-            maxWidth: '100%',
-            paddingInline: 0,
-            marginInline: 0,
+            flex: 1,
+            minWidth: 0,
             boxSizing: 'border-box',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            overflowX: 'clip',
           },
           navbar: {
             background: 'var(--bg-secondary)',
@@ -105,9 +134,16 @@ export default function DocsPortalPage() {
             transition: 'width 200ms ease, transform 200ms ease',
             top: 0,
             height: '100dvh',
-            maxWidth: 'min(300px, 88vw)',
             overflowX: 'hidden',
             overflowY: 'hidden',
+            ...(isMobile
+              ? {
+                  maxWidth: 'min(300px, 88vw)',
+                }
+              : {
+                  width: navbarWidth,
+                  maxWidth: navbarWidth,
+                }),
           },
           header: {
             background: 'var(--bg-secondary)',
@@ -115,20 +151,20 @@ export default function DocsPortalPage() {
             left: isMobile ? 0 : undefined,
             width: isMobile ? '100%' : undefined,
             maxWidth: '100%',
-            height: isMobile ? 'auto' : undefined,
-            minHeight: isMobile ? 0 : HEADER_HEIGHT,
-            overflow: 'visible',
+            overflow: 'hidden',
           },
         }}
       >
         <AppShell.Header>
-          <Header
-            activeDoc={activeDoc}
-            links={navLinks}
-            showBurger={Boolean(isMobile)}
-            burgerOpened={mobileNavOpened}
-            onBurgerClick={toggleMobileNav}
-          />
+          <div ref={headerMeasureRef}>
+            <Header
+              activeDoc={activeDoc}
+              links={navLinks}
+              showBurger={Boolean(isMobile)}
+              burgerOpened={mobileNavOpened}
+              onBurgerClick={toggleMobileNav}
+            />
+          </div>
         </AppShell.Header>
 
         <AppShell.Navbar p={0}>
@@ -145,7 +181,7 @@ export default function DocsPortalPage() {
         </AppShell.Navbar>
 
         <AppShell.Main>
-          <main className="main-content">
+          <main className="main-content main-content--docs">
             <DocViewer doc={activeDoc} setTocItems={setTocItems} />
             <Footer />
           </main>

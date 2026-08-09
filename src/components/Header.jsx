@@ -36,7 +36,7 @@ export function Header({
   return (
     <header className={classes.header}>
       <div className={classes.inner}>
-        <Group gap="sm" wrap="nowrap" style={{ flex: 1, minWidth: 0 }}>
+        <Group gap="sm" wrap="nowrap" align="center" style={{ flex: 1, minWidth: 0 }}>
           {showBurger && (
             <Burger
               opened={burgerOpened}
@@ -44,6 +44,7 @@ export function Header({
               size="sm"
               color="var(--text-muted)"
               aria-label="Toggle navigation"
+              className={classes.burger}
             />
           )}
 
