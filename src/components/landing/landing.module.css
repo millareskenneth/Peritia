@@ -46,10 +46,11 @@
 
 .foldMain {
   display: grid;
-  grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.18fr);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
   gap: 0.45rem;
   min-height: 0;
-  flex: 1;
+  flex: 0 0 auto;
+  align-items: stretch;
 }
 
 .foldLeft,
@@ -59,6 +60,22 @@
   display: flex;
   flex-direction: column;
   gap: 0.4rem;
+  justify-content: flex-start;
+  align-self: stretch;
+}
+
+.dockBottom {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.dockFill {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
 }
 
 .foldGrow {
@@ -69,6 +86,11 @@
 .footerBand {
   width: min(100% - (var(--gutter) * 2), var(--max));
   margin: 0.65rem auto 1.1rem;
+}
+
+.feedBand {
+  width: min(100% - (var(--gutter) * 2), var(--max));
+  margin: 0.55rem auto 0;
 }
 
 .heroStack {
@@ -85,9 +107,258 @@
   flex: 0 0 auto !important;
 }
 
+.topFill {
+  height: 100%;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.topFillBody {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.heroLeadBlock {
+  flex: 0 0 auto;
+}
+
+.heroFactStrip {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0;
+  border: 1px solid var(--rule-strong);
+  flex: 0 0 auto;
+}
+
+.heroFact {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  padding: 0.4rem 0.45rem;
+  border-right: 1px solid var(--rule);
+  min-width: 0;
+  background: var(--paper);
+}
+
+.heroFact:last-child {
+  border-right: none;
+}
+
+.heroFactLabel {
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--mute);
+}
+
+.heroFactValue {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.heroNotes {
+  margin-top: auto;
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--rule);
+  background: color-mix(in srgb, var(--paper) 88%, var(--cream));
+  overflow: hidden;
+}
+
+.heroNotesHead,
+.glanceNotesHead,
+.scopeHead {
+  padding: 0.3rem 0.55rem;
+  border-bottom: 1px solid var(--rule);
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.heroNotesList {
+  list-style: none;
+  margin: 0;
+  padding: 0.35rem 0.55rem 0.45rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.28rem;
+  flex: 1 1 auto;
+  justify-content: space-evenly;
+}
+
+.heroNotesList li {
+  position: relative;
+  padding-left: 0.75rem;
+  font-size: 0.74rem;
+  line-height: 1.35;
+  color: var(--mute);
+}
+
+.heroNotesList li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.45em;
+  width: 0.35rem;
+  height: 0.35rem;
+  background: var(--olive);
+}
+
+.glanceNotes {
+  margin-top: 0;
+  flex: 0 0 auto;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--rule);
+  border-left: none;
+  border-right: none;
+  border-bottom: none;
+  background: color-mix(in srgb, var(--paper) 88%, var(--cream));
+  overflow: visible;
+}
+
+.glanceNotesList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  flex: 0 0 auto;
+}
+
+.glanceNotesList li {
+  display: flex;
+  flex-direction: column;
+  gap: 0.12rem;
+  padding: 0.4rem 0.55rem;
+  border-right: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  flex: 0 0 auto;
+  min-width: 0;
+}
+
+.glanceNotesList li:nth-child(2n) {
+  border-right: none;
+}
+
+.glanceNotesList li:nth-last-child(-n + 2) {
+  border-bottom: none;
+}
+
+.glanceNoteLabel {
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--amber);
+}
+
+.glanceNoteValue {
+  font-size: 0.74rem;
+  color: var(--ink);
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+
+.recordScroll {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: auto;
+  scrollbar-width: thin;
+}
+
 .recordBody {
   padding: 0 !important;
-  flex: 0 0 auto !important;
+  flex: 1 1 auto !important;
+  min-height: 0;
+  gap: 0 !important;
+}
+
+.recordBody .recordTable {
+  flex: none;
+}
+
+.pillarPoints {
+  list-style: none;
+  margin: 0.45rem 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.22rem;
+}
+
+.pillarPoints li {
+  font-family: var(--mono);
+  font-size: 0.64rem;
+  letter-spacing: 0.03em;
+  color: var(--olive);
+  padding-left: 0.7rem;
+  position: relative;
+  line-height: 1.3;
+}
+
+.pillarPoints li::before {
+  content: "›";
+  position: absolute;
+  left: 0;
+  color: var(--amber);
+  font-weight: 700;
+}
+
+.scopeRail {
+  margin-top: auto;
+  flex: 0 0 auto;
+  border: 1px solid var(--rule);
+  background: color-mix(in srgb, var(--paper) 88%, var(--cream));
+}
+
+.scopeGrid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0;
+}
+
+.scopeItem {
+  display: flex;
+  flex-direction: column;
+  gap: 0.12rem;
+  padding: 0.4rem 0.5rem;
+  border-right: 1px solid var(--rule);
+  min-width: 0;
+}
+
+.scopeItem:last-child {
+  border-right: none;
+}
+
+.scopeLabel {
+  font-family: var(--mono);
+  font-size: 0.66rem;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.scopeDetail {
+  font-size: 0.68rem;
+  color: var(--mute);
+  line-height: 1.3;
 }
 
 .leftFill {
@@ -187,7 +458,14 @@
 
 .closeStrip {
   margin-top: 0;
-  flex-shrink: 0;
+  flex: 0 0 auto;
+  width: 100%;
+  min-height: 0;
+}
+
+.feedBand {
+  width: min(100% - (var(--gutter) * 2), var(--max));
+  margin: 0.55rem auto 0;
 }
 
 .logStrip {
@@ -211,11 +489,171 @@
   border-right: none;
 }
 
-/* Dense packing when foldPacked is on — desktop/web */
+/* Viewport-locked fold — main stage = one screen; footer scrolls after */
 @media (min-width: 960px) {
+  .foldPacked.page {
+    min-height: 100dvh;
+  }
+
   .foldPacked .viewportStage {
     height: 100dvh;
     max-height: 100dvh;
+    min-height: 0;
+    overflow: hidden;
+    padding-block: 0.28rem 0.35rem;
+    gap: 0.28rem;
+  }
+
+  .foldPacked .foldMain {
+    flex: 1 1 auto;
+    min-height: 0;
+    align-items: stretch;
+    grid-template-rows: minmax(0, 0.95fr) minmax(0, 1.15fr);
+    row-gap: 0.5rem;
+    column-gap: 0.38rem;
+    overflow: hidden;
+  }
+
+  .foldPacked .foldLeft,
+  .foldPacked .foldRight {
+    display: grid;
+    grid-template-rows: subgrid;
+    grid-row: span 2;
+    row-gap: 0.5rem;
+    column-gap: 0;
+    justify-content: unset;
+    align-self: stretch;
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  .foldPacked .heroStack {
+    height: 100%;
+    max-height: 100%;
+    min-height: 0;
+    overflow: hidden;
+    gap: 0.28rem;
+    display: grid;
+    grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+    align-items: stretch;
+    align-self: stretch;
+  }
+
+  .foldPacked .topFill {
+    height: 100%;
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  .foldPacked .topFillBody {
+    gap: 0.4rem;
+    overflow: hidden;
+  }
+
+  .foldPacked .heroFactStrip {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .foldPacked .heroFact {
+    padding: 0.28rem 0.35rem;
+  }
+
+  .foldPacked .heroFactValue {
+    font-size: 0.66rem;
+  }
+
+  .foldPacked .heroNotesList {
+    padding: 0.28rem 0.45rem 0.35rem;
+    gap: 0.18rem;
+  }
+
+  .foldPacked .heroNotesList li {
+    font-size: 0.68rem;
+  }
+
+  .foldPacked .glanceNotes {
+    flex: 0 0 auto;
+    flex-shrink: 0;
+    overflow: visible;
+  }
+
+  .foldPacked .glanceNotesList {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .foldPacked .glanceNotesList li {
+    padding: 0.32rem 0.45rem 0.38rem;
+    flex: 0 0 auto;
+  }
+
+  .foldPacked .glanceNoteValue {
+    font-size: 0.66rem;
+    line-height: 1.35;
+  }
+
+  .foldPacked .recordBody {
+    display: flex;
+    flex-direction: column;
+    padding: 0 !important;
+    gap: 0 !important;
+    overflow: hidden;
+  }
+
+  .foldPacked .recordScroll {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow: auto;
+  }
+
+  .foldPacked .recordBody .recordTable {
+    flex: none;
+    min-height: 0;
+  }
+
+  .foldPacked .pillarGrid {
+    flex: 1 1 auto;
+    min-height: 0;
+    align-items: stretch;
+  }
+
+  .foldPacked .pillarCell {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+  }
+
+  .foldPacked .pillarPoints {
+    margin-top: auto;
+    padding-top: 0.35rem;
+  }
+
+  .foldPacked .pillarPoints li {
+    font-size: 0.58rem;
+  }
+
+  .foldPacked .scopeItem {
+    padding: 0.3rem 0.4rem;
+  }
+
+  .foldPacked .scopeLabel {
+    font-size: 0.6rem;
+  }
+
+  .foldPacked .scopeDetail {
+    font-size: 0.62rem;
+  }
+
+  .foldPacked .foldRight > .topFill {
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .foldPacked .dockBottom {
+    margin-top: 0;
+    height: 100%;
+    min-height: 0;
+    max-height: 100%;
+    align-self: stretch;
     overflow: hidden;
   }
 
@@ -223,13 +661,37 @@
     margin-top: 0;
     display: flex;
     flex-direction: column;
+    flex: 0 0 auto;
     min-height: 0;
   }
 
-  .foldPacked .panelBody {
-    padding: 0.4rem 0.5rem 0.5rem;
+  .foldPacked .dockBottom.panel {
+    flex: 1 1 auto;
+  }
+
+  .foldPacked .closeStrip {
+    flex: 1 1 auto;
+    height: 100%;
+    max-height: 100%;
+    min-height: 0;
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
+  }
+
+  .foldPacked .dockFill {
+    flex: 1 1 auto;
+    min-height: 0;
     display: flex;
     flex-direction: column;
+    overflow: hidden;
+  }
+
+  .foldPacked .panelBody {
+    padding: 0.42rem 0.55rem 0.5rem;
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
     min-height: 0;
   }
 
@@ -237,17 +699,32 @@
     flex: 0 0 auto;
   }
 
-  .foldPacked .leftFill .panelBody {
+  .foldPacked .topFill .panelBody,
+  .foldPacked .topFillBody {
     flex: 1 1 auto;
+    min-height: 0;
   }
 
   .foldPacked .panelHead {
-    padding: 0.28rem 0.5rem;
-    font-size: 0.64rem;
+    padding: 0.22rem 0.45rem;
+    font-size: 0.6rem;
   }
 
-  .foldPacked .sectionLead,
+  .foldPacked .sectionLead {
+    display: block;
+    font-size: 0.72rem;
+    margin-top: 0.1rem;
+    line-height: 1.35;
+  }
+
   .foldPacked .heroSupport {
+    display: block;
+    font-size: 0.74rem;
+    margin-bottom: 0.35rem;
+    line-height: 1.35;
+  }
+
+  .foldPacked .heroSupportQuiet {
     display: none;
   }
 
@@ -255,35 +732,38 @@
     margin-bottom: 0.3rem;
   }
 
+  .foldPacked .sectionIntro .sectionKicker {
+    display: none;
+  }
+
   .foldPacked .sectionTitle {
-    font-size: 0.86rem;
+    font-size: 0.88rem;
     margin-bottom: 0;
   }
 
   .foldPacked .sectionKicker {
-    font-size: 0.62rem;
-    margin-bottom: 0.12rem;
+    font-size: 0.58rem;
+    margin-bottom: 0.08rem;
   }
 
   .foldPacked .programTitle {
     font-size: clamp(1.25rem, 1.8vw, 1.7rem);
-    margin: 0.05rem 0 0.3rem;
+    margin: 0.02rem 0 0.22rem;
   }
 
   .foldPacked .heroLead {
-    font-size: 0.82rem;
-    line-height: 1.35;
-    margin-bottom: 0.4rem;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+    font-size: 0.9rem;
+    font-weight: 700;
+    line-height: 1.3;
+    margin-bottom: 0.28rem;
+    display: block;
+    overflow: visible;
   }
 
   .foldPacked .btnPrimary,
   .foldPacked .btnSecondary {
-    padding: 0.4rem 0.65rem;
-    font-size: 0.7rem;
+    padding: 0.32rem 0.58rem;
+    font-size: 0.68rem;
   }
 
   .foldPacked .recordTable {
@@ -292,102 +772,134 @@
 
   .foldPacked .recordTable th,
   .foldPacked .recordTable td {
-    padding: 0.28rem 0.4rem;
-  }
-
-  .foldPacked .dataTable {
-    font-size: 0.68rem;
-  }
-
-  .foldPacked .dataTable thead th,
-  .foldPacked .dataTable td {
-    padding: 0.28rem 0.35rem;
+    padding: 0.22rem 0.45rem;
   }
 
   .foldPacked .pillarCell {
-    padding: 0.35rem 0.45rem;
+    padding: 0.45rem 0.55rem 0.5rem;
   }
 
   .foldPacked .pillarName {
-    font-size: 0.82rem;
-    margin-bottom: 0.15rem;
+    font-size: 0.8rem;
   }
 
   .foldPacked .pillarCopy {
-    font-size: 0.72rem;
+    font-size: 0.7rem;
     line-height: 1.3;
   }
 
   .foldPacked .pillarMeta {
-    margin-top: 0.3rem;
-    font-size: 0.62rem;
+    display: none;
+  }
+
+  .foldPacked .txnGrid {
+    flex: 0 0 auto;
   }
 
   .foldPacked .txnCell {
     min-height: 0;
-    padding: 0.4rem 0.5rem;
+    height: auto;
+    padding: 0.45rem 0.55rem;
+    gap: 0.18rem;
+  }
+
+  .foldPacked .startBody {
+    gap: 0.35rem;
+    overflow: hidden;
+  }
+
+  .foldPacked .startRail {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  .foldPacked .startStatusItem {
+    padding: 0.32rem 0.45rem;
+  }
+
+  .foldPacked .startTip {
+    font-size: 0.66rem;
+    padding: 0.28rem 0.45rem 0.35rem;
   }
 
   .foldPacked .txnTitle {
-    font-size: 0.8rem;
+    font-size: 0.78rem;
   }
 
   .foldPacked .txnCopy {
-    font-size: 0.72rem;
+    font-size: 0.68rem;
     line-height: 1.3;
+    flex: 0 0 auto;
+  }
+
+  .foldPacked .txnAction {
+    margin-top: 0.15rem;
+  }
+
+  .foldPacked .txnCode {
+    font-size: 0.6rem;
   }
 
   .foldPacked .commandRow {
-    margin-top: 0.35rem;
-    padding: 0.35rem 0.5rem;
-    font-size: 0.68rem;
-  }
-
-  .foldPacked .logStrip {
-    font-size: 0.62rem;
+    display: none;
   }
 
   .foldPacked .sysbar {
-    padding: 0.3rem 0.5rem;
-    font-size: 0.64rem;
+    padding: 0.22rem 0.42rem;
+    font-size: 0.6rem;
   }
 
   .foldPacked .menubar .menuLink,
-  .foldPacked .menuCta {
-    padding: 0.4rem 0.7rem;
-    font-size: 0.7rem;
+  .foldPacked .menuCta,
+  .foldPacked .menuSecondary {
+    padding: 0.28rem 0.5rem;
+    font-size: 0.64rem;
   }
 
   .foldPacked .brandCell {
-    padding: 0.35rem 0.65rem;
-    min-width: 9rem;
+    padding: 0.28rem 0.5rem;
+    min-width: 8rem;
   }
 
   .foldPacked .siteFooter {
     margin-top: 0;
   }
 
-  .foldPacked .foldRight > .foldGrow {
-    flex: 1.25;
+  .foldPacked .footerBand {
+    margin: 0.45rem auto 0.85rem;
   }
 
-  .foldPacked .foldRight > .panel:not(.foldGrow) {
-    flex: 0 1 auto;
+  .foldPacked .foldRight > .panel:not(.dockBottom) {
+    flex: 0 0 auto;
+    min-height: 0;
+    overflow: auto;
+    scrollbar-width: thin;
   }
 
-  .foldPacked .leftFill .fillStat {
-    padding: 0.28rem 0.4rem;
-  }
-
-  .foldPacked .leftFill .fillNotes li {
-    padding: 0.26rem 0.4rem;
-    font-size: 0.66rem;
+  .foldPacked .foldRight > .dockBottom {
+    flex: 1 1 auto;
+    min-height: 0;
   }
 }
 
 @media (max-width: 959px) {
   .foldMain {
     grid-template-columns: 1fr;
+    grid-template-rows: none;
+  }
+
+  .foldLeft,
+  .foldRight {
+    display: flex;
+    grid-row: auto;
+    gap: 0.4rem;
+  }
+
+  .dockBottom {
+    margin-top: 0;
+    height: auto;
+    min-height: 0;
   }
 
   .viewportStage {
@@ -522,8 +1034,10 @@
   border-right: 1px solid var(--rule);
   color: var(--ink-soft);
   text-decoration: none;
-  font-size: 0.78rem;
-  letter-spacing: 0.03em;
+  font-family: var(--sans);
+  font-size: 0.84rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
   transition: background 120ms ease, color 120ms ease;
 }
 
@@ -537,8 +1051,33 @@
   font-weight: 700;
 }
 
-.menuCta {
+.menuActions {
   margin-left: auto;
+  display: inline-flex;
+  align-items: stretch;
+}
+
+.menuSecondary {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.65rem 0.85rem;
+  background: transparent;
+  color: var(--lang-ink, var(--text-primary));
+  text-decoration: none;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  border-left: 1px solid var(--rule);
+  transition: background 120ms ease, color 120ms ease;
+}
+
+.menuSecondary:hover {
+  background: var(--paper-3);
+  color: var(--olive);
+}
+
+.menuCta {
   display: inline-flex;
   align-items: center;
   gap: 0.45rem;
@@ -614,8 +1153,38 @@
     grid-template-columns: 1fr;
   }
 
-  .menuCta {
+  .heroFactStrip {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .heroFact:nth-child(2n) {
+    border-right: none;
+  }
+
+  .heroFact:nth-child(n + 3) {
+    border-top: 1px solid var(--rule);
+  }
+
+  .scopeGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .scopeItem:nth-child(2n) {
+    border-right: none;
+  }
+
+  .scopeItem:nth-child(n + 3) {
+    border-top: 1px solid var(--rule);
+  }
+
+  .menuActions {
     width: 100%;
+    margin-left: 0;
+  }
+
+  .menuSecondary,
+  .menuCta {
+    width: 50%;
     justify-content: center;
     margin-left: 0;
   }
@@ -646,13 +1215,22 @@
 }
 
 .heroSupport {
-  font-family: var(--mono);
-  font-size: 0.8rem;
+  font-family: var(--sans);
+  font-size: 0.92rem;
   line-height: 1.55;
-  color: var(--mute);
+  color: var(--ink-soft);
   border-left: 3px solid var(--amber);
   padding-left: 0.75rem;
-  margin-bottom: 1rem;
+  margin-bottom: 0.65rem;
+  max-width: 40rem;
+}
+
+.heroSupportQuiet {
+  font-size: 0.85rem;
+  line-height: 1.45;
+  color: var(--mute);
+  margin: 0 0 1rem;
+  max-width: 36rem;
 }
 
 .ctaRow {
@@ -836,6 +1414,8 @@
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 0;
   border: 1px solid var(--rule-strong);
+  flex: 1 1 auto;
+  min-height: 0;
 }
 
 @media (max-width: 48em) {
@@ -848,6 +1428,9 @@
   padding: 0.85rem 0.9rem 1rem;
   background: var(--cream);
   border-right: 1px solid var(--rule);
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
 }
 
 .pillarCell:last-child {
@@ -894,12 +1477,15 @@
   letter-spacing: 0.04em;
 }
 
-/* Enter paths — transaction menu */
+/* Enter paths — start cards */
 .txnGrid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0;
   border: 1px solid var(--rule-strong);
+  flex: 0 0 auto;
+  min-height: 0;
+  align-content: start;
 }
 
 @media (max-width: 48em) {
@@ -911,13 +1497,14 @@
 .txnCell {
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
-  padding: 0.9rem;
+  gap: 0.28rem;
+  padding: 0.65rem 0.75rem;
   background: var(--paper);
   border-right: 1px solid var(--rule);
   text-decoration: none;
   color: inherit;
-  min-height: 9.5rem;
+  min-height: 0;
+  height: auto;
   transition: background 120ms ease;
 }
 
@@ -933,6 +1520,7 @@
   .txnCell {
     border-right: none;
     border-bottom: 1px solid var(--rule);
+    height: auto;
   }
 
   .txnCell:last-child {
@@ -942,31 +1530,169 @@
 
 .txnCode {
   font-family: var(--mono);
-  font-size: 0.7rem;
+  font-size: 0.66rem;
   color: var(--amber);
   letter-spacing: 0.08em;
 }
 
 .txnTitle {
   font-family: var(--mono);
-  font-size: 0.98rem;
+  font-size: 0.9rem;
   font-weight: 700;
   color: var(--ink);
 }
 
 .txnCopy {
-  flex: 1;
-  font-size: 0.88rem;
+  flex: 0 0 auto;
+  font-size: 0.8rem;
   color: var(--mute);
-  line-height: 1.5;
+  line-height: 1.4;
 }
 
 .txnAction {
   font-family: var(--mono);
-  font-size: 0.72rem;
+  font-size: 0.68rem;
   font-weight: 600;
   color: var(--olive);
   letter-spacing: 0.05em;
+  margin-top: 0.2rem;
+}
+
+.startBody {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.startRail {
+  margin-top: auto;
+  border: 1px solid var(--rule);
+  background: color-mix(in srgb, var(--paper) 86%, var(--cream));
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.startRailHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0.75rem;
+  padding: 0.35rem 0.65rem;
+  border-bottom: 1px solid var(--rule);
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink);
+  font-weight: 700;
+}
+
+.startRailHint {
+  color: var(--mute);
+  font-weight: 600;
+}
+
+.startStatus {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0;
+}
+
+.startStatusItem {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  grid-template-rows: auto auto;
+  column-gap: 0.5rem;
+  row-gap: 0.12rem;
+  padding: 0.5rem 0.65rem;
+  border-right: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  min-width: 0;
+}
+
+.startStatusItem:nth-child(2n) {
+  border-right: none;
+}
+
+.startStatusItem:nth-last-child(-n + 2) {
+  border-bottom: none;
+}
+
+.startStatusMark {
+  grid-row: 1 / span 2;
+  align-self: center;
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.1em;
+  font-weight: 700;
+  padding: 0.2rem 0.35rem;
+  border: 1px solid var(--rule-strong);
+  color: var(--mute);
+  background: var(--paper);
+}
+
+.startStatusItem[data-state='ready'] .startStatusMark {
+  color: var(--lang-status-ok, var(--olive));
+  border-color: color-mix(in srgb, var(--lang-status-ok, var(--olive)) 55%, var(--rule));
+  background: color-mix(in srgb, var(--lang-status-ok, var(--olive)) 12%, var(--paper));
+}
+
+.startStatusItem[data-state='build'] .startStatusMark {
+  color: var(--amber);
+  border-color: color-mix(in srgb, var(--amber) 55%, var(--rule));
+  background: color-mix(in srgb, var(--amber) 12%, var(--paper));
+}
+
+.startStatusItem[data-state='next'] .startStatusMark {
+  color: var(--mute);
+}
+
+.startStatusLabel {
+  font-family: var(--mono);
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: var(--ink);
+  min-width: 0;
+}
+
+.startStatusDetail {
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.04em;
+  color: var(--mute);
+}
+
+.startTip {
+  margin: 0;
+  padding: 0.45rem 0.65rem 0.55rem;
+  border-top: 1px solid var(--rule);
+  font-size: 0.76rem;
+  line-height: 1.4;
+  color: var(--mute);
+}
+
+@media (max-width: 48em) {
+  .startStatus {
+    grid-template-columns: 1fr;
+  }
+
+  .startStatusItem {
+    border-right: none;
+  }
+
+  .startStatusItem:nth-last-child(-n + 2) {
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .startStatusItem:last-child {
+    border-bottom: none;
+  }
 }
 
 /* Command / log */
