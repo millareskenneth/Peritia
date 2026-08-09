@@ -948,6 +948,16 @@
     flex: 0 0 auto !important;
   }
 
+  .recordScroll,
+  .fillNotes,
+  .tableScroll {
+    flex: 0 0 auto !important;
+    height: auto !important;
+    max-height: none !important;
+    min-height: 0;
+    overflow: visible !important;
+  }
+
   .dockBottom {
     margin-top: 0;
   }
