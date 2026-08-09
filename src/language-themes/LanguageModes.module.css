@@ -333,9 +333,11 @@
 }
 
 .applyBtn {
-  border: 1px solid color-mix(in srgb, var(--lang-inverse, #fff) 35%, transparent);
-  background: var(--lang-accent, var(--accent-green));
-  color: var(--lang-bg-inverse, #111);
+  /* Invert against the apply bar: bar uses --lang-bg-inverse, and on C/Pascal
+     --lang-accent matches it — so accent+bg-inverse text disappears. */
+  border: 1px solid color-mix(in srgb, var(--lang-inverse-ink, var(--lang-inverse)) 55%, transparent);
+  background: var(--lang-inverse-ink, var(--lang-inverse, #f7f2e6));
+  color: var(--lang-inverse-head, var(--lang-bg-inverse, #111));
   font-family: var(--font-mono);
   font-size: 0.72rem;
   font-weight: 700;
@@ -345,6 +347,7 @@
   cursor: pointer;
   border-radius: var(--lang-radius, 2px);
   flex-shrink: 0;
+  -webkit-text-fill-color: currentColor;
 }
 
 .applyBtn:disabled {
