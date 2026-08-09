@@ -103,6 +103,20 @@
   overflow: hidden;
 }
 
+.feedScroll {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  overscroll-behavior: contain;
+  padding-bottom: 0.35rem;
+}
+
+.feedScroll .queueBlock {
+  padding-bottom: 0.65rem;
+}
+
 .pulseBar {
   display: flex;
   flex-wrap: wrap;
@@ -257,8 +271,12 @@
   min-height: 0;
   display: flex;
   flex-direction: column;
-  padding: 0.3rem 0.55rem 0.28rem;
-  border-bottom: 1px solid var(--lang-rule, var(--border-color));
+  padding: 0.3rem 0.55rem 0.5rem;
+  border-bottom: none;
+}
+
+.queueItem:last-child {
+  padding-bottom: 0.55rem;
 }
 
 .queueHead {
@@ -305,14 +323,16 @@
   font-family: var(--font-mono);
   font-size: 0.74rem;
   font-weight: 700;
-  line-height: 1.3;
+  line-height: 1.35;
   color: var(--lang-ink, var(--text-primary));
+  overflow-wrap: anywhere;
 }
 
 .queueSummary {
   font-size: 0.74rem;
   line-height: 1.4;
   color: var(--lang-mute, var(--text-muted));
+  overflow-wrap: anywhere;
 }
 
 .queueMeta {
@@ -320,6 +340,7 @@
   font-size: 0.62rem;
   color: var(--lang-mute, var(--text-muted));
   letter-spacing: 0.03em;
+  line-height: 1.35;
 }
 
 .queueTime {
@@ -331,8 +352,8 @@
 }
 
 .signalRail {
-  margin-top: auto;
-  flex: 1 1 auto;
+  margin-top: 0;
+  flex: 0 0 auto;
   min-height: 0;
   display: flex;
   flex-direction: column;
