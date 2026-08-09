@@ -9,9 +9,9 @@
 export const SYSTEM_COPY = {
   name: 'PeritiaOS',
   eyebrow: 'Developer Operating System',
-  tagline: 'Build the System. Become the Architect.',
+  tagline: 'A Linux setup built for writing software.',
   description:
-    'An open-source Linux distribution for engineers who want the whole stack under their hands — hardened base, declared toolchains, observability, and environment parity from first boot.',
+    'An open-source Linux system for developers. Faster setup, consistent environments, and tools that help you see what’s slowing work down.',
 };
 
 /** @type {Record<LangId, object>} */

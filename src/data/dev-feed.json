@@ -1,0 +1,40 @@
+{
+  "repo": "millareskenneth/Peritia",
+  "updatedAt": "2026-08-09T06:50:00.000Z",
+  "entries": [
+    {
+      "id": "seed-landing-simplify",
+      "createdAt": "2026-08-09T06:50:00.000Z",
+      "repo": "millareskenneth/Peritia",
+      "branch": "ui/update",
+      "title": "Landing page simplified for visitors",
+      "summary": "Plain product copy, clearer start paths, and a live updates feed.",
+      "bullets": [
+        "Removed jargon-heavy panels visitors did not need",
+        "Kept overview, why it exists, and get started",
+        "Development updates auto-post for visitors"
+      ],
+      "commits": [],
+      "author": "system",
+      "url": "https://github.com/millareskenneth/Peritia",
+      "sha": "seed02"
+    },
+    {
+      "id": "seed-dev-feed",
+      "createdAt": "2026-08-09T00:00:00.000Z",
+      "repo": "millareskenneth/Peritia",
+      "branch": "ui/update",
+      "title": "Development feed is live",
+      "summary": "Pushes are summarized automatically so visitors can follow progress.",
+      "bullets": [
+        "Landing strip shows the latest posts",
+        "Full history lives on /updates",
+        "Source repo stays private — visitors read summaries here"
+      ],
+      "commits": [],
+      "author": "system",
+      "url": "https://github.com/millareskenneth/Peritia",
+      "sha": "seed01"
+    }
+  ]
+}

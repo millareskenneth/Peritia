@@ -1,13 +1,11 @@
 'use client';
 
 import Link from 'next/link';
-import { SYSTEM_COPY } from '../../language-themes/catalog';
-import { useLanguageTheme } from '../../language-themes/LanguageThemeProvider';
+import { LANDING_COPY } from '../../data/landingCopy';
 import classes from './landing.module.css';
 
 export function LandingNav() {
-  const { language } = useLanguageTheme();
-  const t = language.terms;
+  const c = LANDING_COPY;
 
   return (
     <div className={classes.menubar}>
@@ -15,22 +13,26 @@ export function LandingNav() {
         <img src="/peritia.svg" alt="" width={26} height={26} />
         <span>
           <span className={classes.brandName}>PERITIAOS</span>
-          <span className={classes.brandSub}>{SYSTEM_COPY.eyebrow}</span>
+          <span className={classes.brandSub}>{c.eyebrow}</span>
         </span>
       </Link>
 
       <nav className={classes.menuLinks} aria-label="Primary">
-        {t.menu.map((link) => (
-          <a key={link.pf + link.label} href={link.href} className={classes.menuLink}>
-            <span className={classes.menuPf}>{link.pf}</span>
+        {c.menu.map((link) => (
+          <a key={link.label} href={link.href} className={classes.menuLink}>
             {link.label}
           </a>
         ))}
       </nav>
 
-      <Link href="/docs" className={classes.menuCta}>
-        {t.openDocs}
-      </Link>
+      <div className={classes.menuActions}>
+        <Link href="/updates" className={classes.menuSecondary}>
+          Updates
+        </Link>
+        <Link href="/docs" className={classes.menuCta}>
+          Docs
+        </Link>
+      </div>
     </div>
   );
 }

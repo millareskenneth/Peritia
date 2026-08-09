@@ -1,0 +1,50 @@
+name: Dev Feed
+
+# On every push, summarize commits into src/data/dev-feed.json so the website
+# can show a Facebook-style development activity stream for visitors.
+# Committing only the feed file does not re-trigger this workflow (paths-ignore).
+
+on:
+  push:
+    branches:
+      - main
+      - master
+      - ui/update
+    paths-ignore:
+      - 'src/data/dev-feed.json'
+
+permissions:
+  contents: write
+
+jobs:
+  update-feed:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Summarize push into dev feed
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BEFORE_SHA: ${{ github.event.before }}
+        run: node scripts/update-dev-feed.mjs
+
+      - name: Commit feed if changed
+        run: |
+          if git diff --quiet -- src/data/dev-feed.json; then
+            echo "No feed changes."
+            exit 0
+          fi
+          git config user.name "peritia-dev-feed[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/data/dev-feed.json
+          git commit -m "chore(dev-feed): publish push summary [skip ci]"
+          git push
