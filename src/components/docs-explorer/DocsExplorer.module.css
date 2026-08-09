@@ -9,14 +9,21 @@
   --fm-amber: var(--lang-accent-2, var(--accent-amber));
   --fm-mono: var(--font-mono);
 
+  /* Fill the visual viewport; shell never scrolls — pane below does */
+  width: 100%;
+  min-height: 100vh;
   min-height: 100dvh;
+  height: 100vh;
   height: 100dvh;
+  height: 100svh;
+  max-height: 100svh;
   display: flex;
   flex-direction: column;
   background: var(--lang-pattern, none), var(--lang-page-grad, var(--fm-paper));
   background-size: var(--lang-pattern-size, auto), auto;
   color: var(--fm-ink);
   overflow: hidden;
+  overscroll-behavior: none;
 }
 
 .toolbar {
@@ -29,8 +36,6 @@
   background: var(--lang-bg-inverse, var(--fm-head));
   color: var(--lang-inverse, var(--fm-ink));
   min-height: 2.75rem;
-  position: sticky;
-  top: 0;
   z-index: 40;
   flex-shrink: 0;
 }
@@ -156,6 +161,9 @@
   min-height: 0;
   display: flex;
   flex-direction: column;
+  /* Browse views fit the viewport — no ghost scroll */
+  overflow: hidden;
+  overscroll-behavior: none;
 }
 
 .stageBanner {
@@ -166,6 +174,7 @@
   padding: 0.55rem 0.9rem;
   border-bottom: 1px solid var(--fm-rule);
   background: var(--fm-head);
+  flex-shrink: 0;
 }
 
 .volumeLabel {
@@ -188,7 +197,8 @@
   grid-template-columns: repeat(auto-fill, minmax(104px, 1fr));
   gap: 0.35rem 0.25rem;
   padding: 1rem 0.85rem 1.25rem;
-  overflow: auto;
+  overflow: hidden;
+  min-height: 0;
 }
 
 .iconItem {
@@ -259,6 +269,7 @@
   padding: 0.45rem 0.9rem;
   border-top: 1px solid var(--fm-rule);
   background: var(--fm-panel);
+  flex-shrink: 0;
 }
 
 .footLink,
@@ -283,6 +294,8 @@
   display: flex;
   flex-direction: column;
   overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
   background: var(--fm-paper);
   scroll-padding-top: 0.5rem;
 }
@@ -368,12 +381,29 @@
 }
 
 @media (max-width: 900px) {
+  .toolbar {
+    flex-wrap: wrap;
+    row-gap: 0.35rem;
+    padding: 0.4rem 0.55rem;
+    min-height: 0;
+  }
+
+  .toolbarLeft {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
   .brandText {
     display: none;
   }
 
+  .crumbs {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
   .crumb {
-    max-width: 7.5rem;
+    max-width: min(7.5rem, 42vw);
   }
 
   .iconGrid {
@@ -381,13 +411,52 @@
     padding: 0.75rem 0.55rem 1rem;
   }
 
+  .stageBanner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.2rem;
+    padding: 0.5rem 0.7rem;
+  }
+
   .readerBar {
     top: 0;
-    padding: 0.6rem 1rem;
+    padding: 0.55rem 0.85rem;
     flex-direction: column;
+    gap: 0.45rem;
+  }
+
+  .readerTitle {
+    font-size: clamp(1rem, 4.5vw, 1.2rem);
+  }
+
+  .readerSummary {
+    font-size: 0.8rem;
   }
 
   .volumeMetaLight {
     display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .iconGrid {
+    grid-template-columns: repeat(auto-fill, minmax(76px, 1fr));
+    gap: 0.2rem;
+    padding: 0.65rem 0.4rem 0.9rem;
+  }
+
+  .folderGlyph,
+  .fileGlyph {
+    width: 2.9rem;
+    height: 2.7rem;
+  }
+
+  .iconName {
+    font-size: 0.64rem;
+  }
+
+  .metaChip {
+    font-size: 0.55rem;
+    padding: 0.15rem 0.3rem;
   }
 }

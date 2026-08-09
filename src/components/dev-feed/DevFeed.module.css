@@ -435,6 +435,28 @@
   color: var(--lang-mute, var(--text-muted));
 }
 
+/* Mobile: no nested scroll trap — page scrolls as one surface */
+@media (max-width: 959px) {
+  .featuredWrap {
+    flex: 0 0 auto;
+    height: auto;
+    min-height: 0;
+    overflow: visible;
+  }
+
+  .feedScroll {
+    flex: 0 0 auto;
+    min-height: 0;
+    max-height: none;
+    overflow: visible;
+    overscroll-behavior: auto;
+  }
+
+  .signalRail {
+    overflow: visible;
+  }
+}
+
 @media (max-width: 700px) {
   .featuredHead {
     flex-direction: column;

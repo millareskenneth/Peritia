@@ -94,6 +94,14 @@ body {
   max-width: 100%;
 }
 
+/* DocsExplorer: kill document scroll so only the pane scrolls */
+html.docs-viewport-lock,
+html.docs-viewport-lock body {
+  height: 100%;
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+
 .app-main-wrapper {
   flex: 1;
   display: flex;
