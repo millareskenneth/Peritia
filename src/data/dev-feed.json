@@ -1,7 +1,29 @@
 {
   "repo": "millareskenneth/Peritia",
-  "updatedAt": "2026-08-09T09:31:40.972Z",
+  "updatedAt": "2026-08-09T09:53:18.110Z",
   "entries": [
+    {
+      "id": "push-5f98b34-mslmk6ce",
+      "createdAt": "2026-08-09T09:53:18.110Z",
+      "repo": "millareskenneth/Peritia",
+      "branch": "ui/update",
+      "title": "improve commit deduplication and handling",
+      "summary": "improve commit deduplication and handling",
+      "bullets": [
+        "improve commit deduplication and handling"
+      ],
+      "commits": [
+        {
+          "sha": "5f98b34",
+          "message": "improve commit deduplication and handling",
+          "url": "https://github.com/millareskenneth/Peritia/commit/5f98b34ff720721f7399b9dd16f56462acafc56d",
+          "author": "millareskenneth"
+        }
+      ],
+      "author": "millareskenneth",
+      "url": "https://github.com/millareskenneth/Peritia/compare/d5179a3...5f98b34",
+      "sha": "5f98b34"
+    },
     {
       "id": "push-acb63e5-msllsdgs",
       "createdAt": "2026-08-09T09:31:40.972Z",
