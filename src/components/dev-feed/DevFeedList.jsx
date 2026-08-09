@@ -83,68 +83,78 @@ export function DevFeedList({
           ) : null}
         </div>
 
-        <article className={classes.featured} aria-labelledby={`feed-feat-${latest.id}`}>
-          <header className={classes.featuredHead}>
-            <div className={classes.featuredMeta}>
-              <span className={classes.featuredTag}>LATEST</span>
-              <span className={classes.stripBranch}>{latest.branch}</span>
-              <span className={classes.stripMeta}>
-                {latest.sha} · {latest.author}
-              </span>
+        <div className={classes.feedScroll}>
+          <article className={classes.featured} aria-labelledby={`feed-feat-${latest.id}`}>
+            <header className={classes.featuredHead}>
+              <div className={classes.featuredMeta}>
+                <span className={classes.featuredTag}>LATEST</span>
+                <span className={classes.stripBranch}>{latest.branch}</span>
+                <span className={classes.stripMeta}>
+                  {latest.sha} · {latest.author}
+                </span>
+              </div>
+              <time className={classes.featuredTime} dateTime={latest.createdAt}>
+                {formatFeedTime(latest.createdAt)}
+              </time>
+            </header>
+
+            <h3 id={`feed-feat-${latest.id}`} className={classes.featuredTitle}>
+              {latest.title}
+            </h3>
+            {latest.summary &&
+            latest.summary.trim().toLowerCase() !== latest.title.trim().toLowerCase() ? (
+              <p className={classes.featuredSummary}>{latest.summary}</p>
+            ) : null}
+
+            {latest.bullets?.length ? (
+              <ul className={classes.featuredBullets}>
+                {latest.bullets.map((b) => (
+                  <li key={b}>{b}</li>
+                ))}
+              </ul>
+            ) : null}
+
+            {visibleCommits.length ? (
+              <ul className={classes.featuredCommits}>
+                {visibleCommits.slice(0, 4).map((commit) => (
+                  <li key={commit.sha + commit.message}>
+                    <code>{commit.sha}</code>
+                    <span>{commit.message}</span>
+                  </li>
+                ))}
+              </ul>
+            ) : null}
+          </article>
+
+          {rest.length ? (
+            <div className={classes.queueBlock}>
+              <div className={classes.queueHead}>EARLIER</div>
+              <ul className={classes.queueList}>
+                {rest.map((entry) => {
+                  const sameSummary =
+                    entry.summary &&
+                    entry.summary.trim().toLowerCase() === entry.title.trim().toLowerCase();
+                  return (
+                    <li key={entry.id} className={classes.queueItem}>
+                      <div className={classes.queueMain}>
+                        <span className={classes.queueTitle}>{entry.title}</span>
+                        {entry.summary && !sameSummary ? (
+                          <span className={classes.queueSummary}>{entry.summary}</span>
+                        ) : null}
+                        <span className={classes.queueMeta}>
+                          {entry.branch} · {entry.sha}
+                        </span>
+                      </div>
+                      <time className={classes.queueTime} dateTime={entry.createdAt}>
+                        {formatFeedTime(entry.createdAt)}
+                      </time>
+                    </li>
+                  );
+                })}
+              </ul>
             </div>
-            <time className={classes.featuredTime} dateTime={latest.createdAt}>
-              {formatFeedTime(latest.createdAt)}
-            </time>
-          </header>
-
-          <h3 id={`feed-feat-${latest.id}`} className={classes.featuredTitle}>
-            {latest.title}
-          </h3>
-          {latest.summary ? <p className={classes.featuredSummary}>{latest.summary}</p> : null}
-
-          {latest.bullets?.length ? (
-            <ul className={classes.featuredBullets}>
-              {latest.bullets.map((b) => (
-                <li key={b}>{b}</li>
-              ))}
-            </ul>
           ) : null}
-
-          {visibleCommits.length ? (
-            <ul className={classes.featuredCommits}>
-              {visibleCommits.slice(0, 4).map((commit) => (
-                <li key={commit.sha + commit.message}>
-                  <code>{commit.sha}</code>
-                  <span>{commit.message}</span>
-                </li>
-              ))}
-            </ul>
-          ) : null}
-        </article>
-
-        {rest.length ? (
-          <div className={classes.queueBlock}>
-            <div className={classes.queueHead}>EARLIER</div>
-            <ul className={classes.queueList}>
-              {rest.map((entry) => (
-                <li key={entry.id} className={classes.queueItem}>
-                  <div className={classes.queueMain}>
-                    <span className={classes.queueTitle}>{entry.title}</span>
-                    {entry.summary ? (
-                      <span className={classes.queueSummary}>{entry.summary}</span>
-                    ) : null}
-                    <span className={classes.queueMeta}>
-                      {entry.branch} · {entry.sha}
-                    </span>
-                  </div>
-                  <time className={classes.queueTime} dateTime={entry.createdAt}>
-                    {formatFeedTime(entry.createdAt)}
-                  </time>
-                </li>
-              ))}
-            </ul>
-          </div>
-        ) : null}
+        </div>
 
         <div className={classes.signalRail}>
           <div className={classes.signalHead}>
