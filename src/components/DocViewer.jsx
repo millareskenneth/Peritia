@@ -7,7 +7,7 @@ import mermaid from 'mermaid';
 import 'highlight.js/styles/atom-one-dark.css';
 import { DiagramCanvasModal } from './DiagramCanvasModal';
 import { useLanguageTheme } from '../language-themes/LanguageThemeProvider';
-import { buildMermaidConfig } from '../language-themes/mermaidTheme';
+import { applyMermaidPalette, buildMermaidConfig } from '../language-themes/mermaidTheme';
 
 const lucideSvgs = {
   copy: `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-copy"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>`,
@@ -189,8 +189,6 @@ export function DocViewer({ doc, setTocItems }) {
     let cancelled = false;
 
     const paint = async () => {
-      // Wait a frame so CSS variables from data-lang are applied.
-      await new Promise((resolve) => requestAnimationFrame(() => resolve()));
       if (cancelled || !contentRef.current) return;
 
       mermaid.initialize(buildMermaidConfig(language.scheme));
@@ -225,6 +223,9 @@ export function DocViewer({ doc, setTocItems }) {
 
       if (cancelled || !contentRef.current) return;
 
+      // Mermaid 11 ships ID-scoped !important fills — restyle after paint.
+      applyMermaidPalette(contentRef.current, language.scheme);
+
       containers.forEach((container) => {
         if (container.querySelector('.diagram-expand-btn')) return;
 
@@ -232,6 +233,8 @@ export function DocViewer({ doc, setTocItems }) {
         const openModal = () => {
           const svg = container.querySelector('svg');
           if (svg) {
+            // Clone so modal gets the already-themed SVG markup.
+            applyMermaidPalette(container, language.scheme);
             setModalData({ svg: svg.outerHTML, title: diagramTitle });
           }
         };
@@ -250,10 +253,18 @@ export function DocViewer({ doc, setTocItems }) {
       });
     };
 
-    paint();
+    // Double-rAF: data-lang CSS vars must be committed before reading tokens.
+    let raf2 = 0;
+    const raf1 = requestAnimationFrame(() => {
+      raf2 = requestAnimationFrame(() => {
+        paint();
+      });
+    });
 
     return () => {
       cancelled = true;
+      cancelAnimationFrame(raf1);
+      cancelAnimationFrame(raf2);
     };
   }, [doc, docVersion, langId, language.scheme]);
 
