@@ -1,7 +1,54 @@
 {
   "repo": "millareskenneth/Peritia",
-  "updatedAt": "2026-08-09T08:50:49.588Z",
+  "updatedAt": "2026-08-09T08:51:39.712Z",
   "entries": [
+    {
+      "id": "push-e86016a-mslkcwn4",
+      "createdAt": "2026-08-09T08:51:39.712Z",
+      "repo": "millareskenneth/Peritia",
+      "branch": "main",
+      "title": "Refactors landed on main (2 commits)",
+      "summary": "2 refactor",
+      "bullets": [
+        "update landing page components for improved messaging and layout",
+        "simplify DocsPortalPage and enhance global styles"
+      ],
+      "commits": [
+        {
+          "sha": "ffeb0c7",
+          "message": "refactor: update landing page components for improved messaging and layout",
+          "url": "https://github.com/millareskenneth/Peritia/commit/ffeb0c74124ab6fcdd46ce0cb4cc8c4a1f29690d",
+          "author": "millareskenneth"
+        },
+        {
+          "sha": "51352b6",
+          "message": "chore(dev-feed): publish push summary [skip ci]",
+          "url": "https://github.com/millareskenneth/Peritia/commit/51352b6fa16b33525542d26be2457ace8be47952",
+          "author": "github-actions[bot]"
+        },
+        {
+          "sha": "e48995a",
+          "message": "refactor: simplify DocsPortalPage and enhance global styles",
+          "url": "https://github.com/millareskenneth/Peritia/commit/e48995a72e297edf1058ac5d63437ba94bb43b98",
+          "author": "millareskenneth"
+        },
+        {
+          "sha": "112508f",
+          "message": "chore(dev-feed): publish push summary [skip ci]",
+          "url": "https://github.com/millareskenneth/Peritia/commit/112508f4b116de7977f600b76968cf7cd5d54536",
+          "author": "github-actions[bot]"
+        },
+        {
+          "sha": "e86016a",
+          "message": "Merge pull request #8 from millareskenneth/ui/update",
+          "url": "https://github.com/millareskenneth/Peritia/commit/e86016a1401ee90ec27d4e5351f4c5d409b48a9f",
+          "author": "millareskenneth"
+        }
+      ],
+      "author": "millareskenneth",
+      "url": "https://github.com/millareskenneth/Peritia/compare/90eed6b...e86016a",
+      "sha": "e86016a"
+    },
     {
       "id": "push-e48995a-mslkbtys",
       "createdAt": "2026-08-09T08:50:49.588Z",
