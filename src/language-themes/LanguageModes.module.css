@@ -211,18 +211,18 @@
 
 .previewDock {
   flex: 0 0 auto;
-  max-height: 42%;
+  max-height: 36%;
   overflow: auto;
   border-top: 1px solid var(--lang-rule-strong, var(--border-strong));
   background: var(--lang-bg-head, var(--bg-tertiary));
-  padding: 0.55rem 1.1rem 0.85rem;
+  padding: 0.45rem 1.1rem 0.55rem;
   z-index: 2;
 }
 
 .previewDockCollapsed {
   max-height: none;
   overflow: visible;
-  padding-bottom: 0.55rem;
+  padding-bottom: 0.35rem;
 }
 
 .previewToggle {
@@ -238,7 +238,7 @@
   font-size: 0.68rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  padding: 0.35rem 0 0.55rem;
+  padding: 0.25rem 0 0.4rem;
   cursor: pointer;
   text-align: left;
 }
@@ -280,24 +280,76 @@
   margin-bottom: 0.2rem;
 }
 
-.previewActions {
+.applyBar {
+  flex: 0 0 auto;
   display: flex;
-  justify-content: flex-end;
-  margin-top: 0.65rem;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.7rem 1.1rem calc(0.75rem + env(safe-area-inset-bottom, 0px));
+  border-top: 1px solid var(--lang-rule-strong, var(--border-strong));
+  background: var(--lang-bg-inverse, var(--bg-ink));
+  color: var(--lang-inverse, var(--text-inverse));
+  z-index: 3;
+}
+
+.applyMeta {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  min-width: 0;
+  flex: 1;
+}
+
+.applyMotif {
+  font-size: 1.1rem;
+  flex-shrink: 0;
+  color: var(--lang-accent-2, var(--accent-amber));
+}
+
+.applyCopy {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  min-width: 0;
+}
+
+.applyLabel {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  opacity: 0.75;
+}
+
+.applyName {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .applyBtn {
-  border: 1px solid var(--lang-rule-strong, var(--border-strong));
-  background: var(--lang-bg-inverse, var(--bg-ink));
-  color: var(--lang-inverse, var(--text-inverse));
+  border: 1px solid color-mix(in srgb, var(--lang-inverse, #fff) 35%, transparent);
+  background: var(--lang-accent, var(--accent-green));
+  color: var(--lang-bg-inverse, #111);
   font-family: var(--font-mono);
   font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  padding: 0.55rem 0.85rem;
+  padding: 0.7rem 0.95rem;
   cursor: pointer;
   border-radius: var(--lang-radius, 2px);
+  flex-shrink: 0;
+}
+
+.applyBtn:disabled {
+  opacity: 0.65;
+  cursor: wait;
 }
 
 @keyframes fadeIn {
@@ -382,8 +434,8 @@
   }
 
   .previewDock {
-    max-height: 38dvh;
-    padding: 0.45rem 0.9rem calc(0.75rem + env(safe-area-inset-bottom, 0px));
+    max-height: 28dvh;
+    padding: 0.35rem 0.9rem 0.4rem;
   }
 
   .previewDockCollapsed {
@@ -401,11 +453,16 @@
     font-size: 0.68rem;
   }
 
-  .previewActions {
-    margin-top: 0.55rem;
+  .applyBar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.55rem;
+    padding: 0.7rem 0.9rem calc(0.85rem + env(safe-area-inset-bottom, 0px));
   }
 
   .applyBtn {
     width: 100%;
+    padding: 0.85rem 1rem;
+    font-size: 0.78rem;
   }
 }
