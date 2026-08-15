@@ -1,36 +1,58 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Peritia
 
-## Getting Started
+Public face of **PeritiaOS** — landing site, docs portal, and live development updates.
 
-First, run the development server:
+> Tired of burning half a day fighting a fresh Linux install before you can write code? That’s the itch this project scratches.
+
+## What PeritiaOS is
+
+Developer-first Linux (AGPLv3) aimed at:
+
+- Wizard-led setup instead of a generic desktop slog
+- Rootless containers and build-friendly storage (Btrfs / `tmpfs`)
+- Declarative environments via `.peritia.yaml`
+- Same shape from laptop → CI → closer to prod
+- Clear docs + auto push summaries while the OS image is built (~6-month track)
+
+**This repo is not the OS image.** It is the visitor site and the planning home (`MILESTONES.md`, `SDLC.md`).
+
+## Repo map
+
+| Repo | Role |
+| --- | --- |
+| **Peritia** (this repo) | Site, docs explorer, `/updates` feed |
+| [`peritia-backend`](https://github.com/millareskenneth/peritia-backend) | OS engines (Rust): pkg, declare, core |
+| [`peritia-frontend`](https://github.com/millareskenneth/peritia-frontend) | OS TUIs / CLIs (Rust): wizard, dashboard, `peritia` CLI |
+
+Planning board: [PeritiaOS Solo Board](https://github.com/users/millareskenneth/projects/3)
+
+## Stack (this repo)
+
+- **Next.js 16** / **React 19**
+- Markdown + Mermaid docs
+- GitHub Action → `src/data/dev-feed.json` on push
+- LANGUAGE MODES (theme chrome only — product copy stays fixed)
+
+## Run locally
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+```bash
+npm run lint
+npm run build
+npm run smoke:os:m1   # OS image smoke (SKIP until an image exists)
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Status
 
-## Learn More
+- Site, docs, and updates feed: **live / shipping**
+- Installable OS image + first packages: **under development** (see [MILESTONES.md](./MILESTONES.md))
 
-To learn more about Next.js, take a look at the following resources:
+## License
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+AGPLv3 — see product docs / `LICENSE` when present.

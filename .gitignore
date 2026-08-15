@@ -39,3 +39,10 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# OS image artifacts (keep dist/os/README.md)
+/dist/os/*
+!/dist/os/README.md
+*.img
+*.iso
+*.qcow2

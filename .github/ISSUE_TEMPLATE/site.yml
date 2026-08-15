@@ -1,0 +1,36 @@
+name: Site
+description: Public surface — landing, docs explorer, updates feed, themes
+title: "[site] "
+labels: ["site"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Fast-track work. Keep OS milestones out of this issue — use **OS milestone** instead.
+        Capacity: once OS image work is active, site polish is capped at ~20% of the week (see `MILESTONES.md`).
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - landing
+        - docs
+        - updates-feed
+        - language-modes
+        - other
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: What is wrong or missing?
+      placeholder: Visitor-visible symptom preferred.
+    validations:
+      required: true
+  - type: textarea
+    id: done
+    attributes:
+      label: Done when
+      placeholder: One visitor sentence you could post on /updates if this ships.
+    validations:
+      required: true

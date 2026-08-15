@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "smoke:os:m1": "bash scripts/os/smoke-m1.sh"
   },
   "dependencies": {
     "@mantine/core": "^9.5.1",

@@ -1,0 +1,59 @@
+name: OS milestone
+description: Slow-track OS work scoped to M1–M6 acceptance
+title: "[os] "
+labels: ["os"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        One OS milestone WIP at a time. Acceptance checks live in `MILESTONES.md`.
+        Risk order: boot → packages → containers → wizard UX → time-machine toys.
+  - type: dropdown
+    id: milestone
+    attributes:
+      label: Milestone
+      options:
+        - M1 Foundation
+        - M2 First-boot path
+        - M3 Containers
+        - M4 Toolchain parity
+        - M5 Observability slice
+        - M6 Alpha image
+    validations:
+      required: true
+  - type: textarea
+    id: goal
+    attributes:
+      label: Goal
+      description: What demable subsystem or artifact this unlocks.
+    validations:
+      required: true
+  - type: textarea
+    id: non_goals
+    attributes:
+      label: Non-goals
+      placeholder: What you will explicitly not build in this slice.
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance (copy from MILESTONES.md)
+      placeholder: Checklist items that must be true to close.
+    validations:
+      required: true
+  - type: textarea
+    id: visitor
+    attributes:
+      label: Visitor sentence
+      placeholder: One honest /updates line when this lands.
+    validations:
+      required: true
+  - type: input
+    id: smoke
+    attributes:
+      label: Smoke command
+      description: Script or steps under ~15 minutes.
+      placeholder: scripts/os/smoke-m1.sh
+    validations:
+      required: true
