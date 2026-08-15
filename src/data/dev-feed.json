@@ -1,7 +1,57 @@
 {
   "repo": "millareskenneth/Peritia",
-  "updatedAt": "2026-08-09T09:53:18.110Z",
+  "updatedAt": "2026-08-15T15:00:53.326Z",
   "entries": [
+    {
+      "id": "push-2e3a946-msui6uha",
+      "createdAt": "2026-08-15T15:00:53.326Z",
+      "repo": "millareskenneth/Peritia",
+      "branch": "ui/update",
+      "title": "5 changes pushed to ui/update",
+      "summary": "improve commit message handling and display in dev feed · enhance layout and scrolling behavior · improve scrolling behavior and layout",
+      "bullets": [
+        "improve commit message handling and display in dev feed",
+        "enhance layout and scrolling behavior",
+        "improve scrolling behavior and layout",
+        "improve commit deduplication and handling",
+        "Add solo SDLC playbook, site CI, and project README."
+      ],
+      "commits": [
+        {
+          "sha": "8f92b75",
+          "message": "improve commit message handling and display in dev feed",
+          "url": "https://github.com/millareskenneth/Peritia/commit/8f92b7576b818811b4d55b71f2875b4769f71909",
+          "author": "millareskenneth"
+        },
+        {
+          "sha": "823920c",
+          "message": "enhance layout and scrolling behavior",
+          "url": "https://github.com/millareskenneth/Peritia/commit/823920ce2734821c73129403f11e2e4400ec1a94",
+          "author": "millareskenneth"
+        },
+        {
+          "sha": "3e6569a",
+          "message": "improve scrolling behavior and layout",
+          "url": "https://github.com/millareskenneth/Peritia/commit/3e6569a600451a4f26955a381500adcd34f211dc",
+          "author": "millareskenneth"
+        },
+        {
+          "sha": "e5a3d25",
+          "message": "improve commit deduplication and handling",
+          "url": "https://github.com/millareskenneth/Peritia/commit/e5a3d256952348eca21197829f248c1cf938ae9a",
+          "author": "millareskenneth"
+        },
+        {
+          "sha": "2e3a946",
+          "message": "Add solo SDLC playbook, site CI, and project README.",
+          "url": "https://github.com/millareskenneth/Peritia/commit/2e3a946c2e882acef69eb235b5e6fa7f48084321",
+          "author": "millareskenneth"
+        }
+      ],
+      "author": "millareskenneth",
+      "url": "https://github.com/millareskenneth/Peritia/compare/2423228...2e3a946",
+      "sha": "2e3a946"
+    },
     {
       "id": "push-5f98b34-mslmk6ce",
       "createdAt": "2026-08-09T09:53:18.110Z",
